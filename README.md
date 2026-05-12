@@ -23,30 +23,24 @@ Globally, 30% of all food produced is wasted before it reaches a consumer's plat
 - **Real-Time Market Prices:** Live integration with wholesale pricing (e.g., Agmarknet) via an automated, self-healing background scraper. If the government API goes down, the system mathematically simulates pricing via 7-day moving averages.
 - **AI Assistant:** Get instant natural language advice on yields, weather, and market conditions.
 
-### 2. Distributor Portal 🚚
-- **3PL Logistics Engine:** Track end-to-end shipments, including variables like weight, priority, and real-time transit progress.
-- **Dynamic Route Optimization:** Automatically groups active shipments by destination and calculates total load weights to suggest the most efficient delivery routes.
-- **Fleet & Warehouse Management:** Monitor real-time status of fleet vehicles (Active/Idle/Maintenance) and calculate live warehouse utilization capacity.
-
-### 3. Retailer Portal 🏪
+### 2. Retailer Portal 🏪
 - **Inventory Optimization:** Multi-unit tracking (kg, liters, packets) to manage everything from loose produce to packaged dairy.
 - **Demand Prediction:** ML models analyze historical retail sales to predict exact stock needs for the next 7-14 days.
 - **Automated Alerts:** Prevent food waste with AI-driven flags for "Slow Turnover" items, prompting timely discounts before spoilage.
 
+### 3. Distributor Portal 🚚 (Frontend UI Demo)
+> **Note:** For this hackathon submission, the Distributor portal is primarily implemented as a high-fidelity frontend UI demo to showcase the planned logistics workflow.
+- **3PL Logistics Engine:** Interface for tracking end-to-end shipments (weight, priority, transit progress).
+- **Dynamic Route Optimization:** UI planned for grouping shipments by destination to suggest efficient delivery routes.
+- **Fleet & Warehouse Management:** Dashboard mockups for monitoring real-time fleet status and warehouse utilization capacity.
+
 ---
 
-## 🛡️ Current Security & Future Enterprise Deployment
+## 🛡️ Security Architecture
 
-### Current MVP Security Implementation
 - **Strict Role-Based Access Control (RBAC):** Custom JWT-based middleware guarantees complete data isolation. A retailer cannot query a farmer's yield data, and a distributor cannot access a retailer's analytics.
 - **Environment Isolation:** Secrets and database credentials are fully masked.
 - **Cross-Origin Security:** CORS policies strictly lock backend API access to verified frontend domains.
-
-### Future Production Deployment Plan (Zero-Trust Privacy)
-Agricultural data is highly proprietary. When deploying to enterprise clients, we plan to implement a **Zero-Trust Data Privacy** moat:
-- **AES-256 Encryption:** All data at rest and in transit will be cryptographically secured.
-- **Trusted Execution Environment (TEE):** Our AI models (LLMs and Prophet) will execute inside a Secure Enclave. This provides mathematical, hardware-based safety guarantees. 
-- **Zero Data Leakage:** Because the memory state inside a TEE is hidden from the host OS and GPUs, user data is never logged on servers and is mathematically prevented from being used to train foundation models.
 
 ---
 
@@ -112,5 +106,4 @@ Agricultural data is highly proprietary. When deploying to enterprise clients, w
    Open [http://localhost:3000](http://localhost:3000) in your browser. You can navigate between the portals via `/farmer`, `/distributor`, and `/retailer`.
 
 ---
-
 

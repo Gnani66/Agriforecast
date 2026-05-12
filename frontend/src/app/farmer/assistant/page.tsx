@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import FarmerLayout from "@/layouts/FarmerLayout";
+import { farmerService } from "@/services/farmerService";
 import { Bot, Send, MessageCircle } from "lucide-react";
 
 interface Message {
@@ -48,16 +49,27 @@ export default function AssistantPage() {
     setInput("");
     setIsLoading(true);
 
-    setTimeout(() => {
+    try {
+      const context = { history: messages.slice(-10).map(m => ({ role: m.role, content: m.content })) };
+      const res = await farmerService.chatWithAI(input, context);
       const aiResponse: Message = {
         id: Date.now() + 1,
         role: "assistant",
-        content: "Thank you for your question. I am processing your request and will provide personalized recommendations based on your farm data. Please connect your farm profile to enable detailed analysis.",
+        content: res.data?.response || "I'm sorry, I couldn't process your request. Please try again.",
         timestamp: new Date()
       };
       setMessages((prev) => [...prev, aiResponse]);
+    } catch {
+      const aiResponse: Message = {
+        id: Date.now() + 1,
+        role: "assistant",
+        content: "I'm having trouble connecting. Please check your connection and try again.",
+        timestamp: new Date()
+      };
+      setMessages((prev) => [...prev, aiResponse]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (

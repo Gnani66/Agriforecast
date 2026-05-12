@@ -10,7 +10,8 @@ router.post("/signup", async (req, res) => {
   try {
     const { name, email, password, storeName, storeType, region, inventoryCategory } = req.body;
 
-    const existingRetailer = await Retailer.findOne({ email });
+    const normalizedEmail = email.toLowerCase().trim();
+    const existingRetailer = await Retailer.findOne({ email: normalizedEmail });
 
     if (existingRetailer) {
       return res.status(400).json({ message: "Retailer already exists" });

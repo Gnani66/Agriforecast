@@ -1,6 +1,8 @@
 const Forecast = require("../models/Forecast");
 const InventoryItem = require("../models/InventoryItem");
 const SalesRecord = require("../models/SalesRecord");
+const { getProphetForecast } = require("./mlForecastService");
+
 
 const retailerForecastMap = {
   Milk: { demand: "High", increase: "12%", trend: "Increasing", confidence: 85 },
@@ -32,37 +34,72 @@ const getDemandForecast = async (retailerId) => {
   const items = await InventoryItem.find({ retailerId });
   const sales = await SalesRecord.find({ retailerId }).sort({ date: -1 }).limit(100);
 
-  const forecasts = items.map(item => {
+  const forecasts = await Promise.all(items.map(async item => {
     const forecast = generateRetailForecast(item.product);
     const recentSales = sales
       .filter(s => s.product.toLowerCase() === item.product.toLowerCase())
-      .slice(0, 7);
-    const avgDailySales = recentSales.length > 0
+      .slice(0, 30);
+      
+    let avgDailySales = recentSales.length > 0
       ? recentSales.reduce((s, r) => s + (r.unitsSold || r.quantity || 0), 0) / recentSales.length
       : item.avgDaily || 0;
+      
+    if (avgDailySales === 0) avgDailySales = 20;
 
-    const predictedDemand = Math.round(avgDailySales * (1 + parseInt(forecast.increase) / 100));
+    let historyData = recentSales.map(r => ({
+      date: new Date(r.date).toISOString().split('T')[0],
+      value: r.unitsSold || r.quantity || 0
+    }));
+
+    if (historyData.length < 5) {
+      historyData = [];
+      const baseDemand = avgDailySales;
+      for (let i = 30; i > 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const noise = (Math.random() - 0.5) * (baseDemand * 0.4);
+        historyData.push({
+          date: d.toISOString().split('T')[0],
+          value: Math.max(1, Math.round(baseDemand + noise))
+        });
+      }
+    }
+
+    let predictedDemand = Math.round(avgDailySales * (1 + parseInt(forecast.increase) / 100));
+    let mlForecast = [];
+
+    try {
+      mlForecast = await getProphetForecast(historyData, 7);
+      if (mlForecast && mlForecast.length > 0) {
+        const sumPred = mlForecast.reduce((sum, f) => sum + f.prediction, 0);
+        predictedDemand = Math.max(1, Math.round(sumPred / mlForecast.length));
+        forecast.confidence = Math.min(99, forecast.confidence + 15);
+      }
+    } catch (e) {
+      console.warn(`Prophet ML failed for ${item.product}:`, e.message);
+    }
 
     return {
       product: item.product,
       category: item.category,
       currentStock: item.quantity,
-      avgDailySales,
+      avgDailySales: Math.round(avgDailySales),
       predictedDemand,
       demand: forecast.demand,
       increase: forecast.increase,
       trend: forecast.trend,
       confidence: forecast.confidence,
+      mlForecast,
       daysUntilOut: avgDailySales > 0 ? Math.round(item.quantity / avgDailySales) : null,
     };
-  });
+  }));
 
   const highDemand = forecasts.filter(f => f.demand === "High");
   const spikeAlerts = forecasts
-    .filter(f => parseInt(f.increase) >= 10)
+    .filter(f => parseInt(f.increase) >= 10 || (f.predictedDemand > f.avgDailySales * 1.2))
     .map(f => ({
       product: f.product,
-      message: `${f.product} demand expected to increase by ${f.increase}.`,
+      message: `${f.product} demand expected to spike significantly.`,
     }));
 
   return {

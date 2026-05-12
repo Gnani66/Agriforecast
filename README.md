@@ -102,8 +102,4 @@ Globally, 30% of all food produced is wasted before it reaches a consumer's plat
    npm run dev
    ```
 
-4. **Access the Application**
-   Open [http://localhost:3000](http://localhost:3000) in your browser. You can navigate between the portals via `/farmer`, `/distributor`, and `/retailer`.
-
----
 

@@ -5,6 +5,7 @@ import type {
   Forecast,
   MarketPrice,
   AIInsight,
+  HarvestPrediction,
 } from '@/types';
 
 export const farmerService = {
@@ -33,7 +34,7 @@ export const farmerService = {
     api.get<any[]>('/farmer/market/live'),
 
   getHarvestReady: () =>
-    api.get<CropEntry[]>('/farmer/harvest'),
+    api.get<HarvestPrediction[]>('/farmer/harvest'),
 
   getInsights: () =>
     api.get<AIInsight[]>('/farmer/insights'),

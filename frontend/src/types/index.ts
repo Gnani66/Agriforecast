@@ -231,6 +231,19 @@ export interface Warehouse {
   efficiency: number;
 }
 
+export interface HarvestPrediction {
+  cropName: string;
+  plantingDate: string;
+  expectedHarvestDate: string;
+  bestHarvestWindowStart: string;
+  bestHarvestWindowEnd: string;
+  demandPeakTiming: string;
+  riskLevel: string;
+  recommendation: string;
+  daysUntilHarvest: number;
+  generatedAt: string;
+}
+
 export interface AIInsight {
   type: string;
   title: string;

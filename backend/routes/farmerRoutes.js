@@ -4,7 +4,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 const {
   getProfile, updateProfile, getDashboard, getCrops, createCrop,
   updateCrop, deleteCrop, getForecast, getMarket, getLiveMarket, getHarvest,
-  getRevenue, getWeather, seedData
+  getRevenue, getWeather, seedData, getInsights
 } = require("../controllers/farmerController");
 
 router.post("/seed", seedData);
@@ -24,5 +24,6 @@ router.get("/market/live", getLiveMarket);
 router.get("/harvest", getHarvest);
 router.get("/revenue", getRevenue);
 router.get("/weather", getWeather);
+router.get("/insights", getInsights);
 
 module.exports = router;

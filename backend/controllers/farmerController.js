@@ -190,7 +190,7 @@ const getForecast = async (req, res) => {
     }
 
     const forecasts = await Forecast.find({
-      userId: req.userId,
+      $or: [{ userId: req.userId }, { userId: null }],
       type: { $in: ["demand", "revenue"] }
     }).sort({ date: -1 });
 
@@ -240,7 +240,7 @@ const getHarvest = async (req, res) => {
   try {
     const activeCrops = await CropEntry.find({
       farmerId: req.userId,
-      status: { $in: ["Planted", "Growing"] }
+      status: { $nin: ["Harvested", "Failed"] }
     });
 
     const profile = await FarmerProfile.findOne({ farmerId: req.userId });
@@ -373,6 +373,61 @@ const seedData = async (req, res) => {
   }
 };
 
+const getInsights = async (req, res) => {
+  try {
+    const crops = await CropEntry.find({ farmerId: req.userId, status: { $nin: ["Harvested", "Failed"] } });
+    
+    const insights = [];
+    
+    // Add demand insights if crops exist
+    if (crops.length > 0) {
+      for (const crop of crops.slice(0, 3)) {
+        const trend = await getPriceTrend(crop.cropName, 7);
+        if (trend.average > 0) {
+          insights.push({
+            type: "demand_spike",
+            title: `Demand Update: ${crop.cropName}`,
+            description: `Current market trend for ${crop.cropName} is ${trend.trend || "stable"}. Consider planning harvest accordingly.`,
+            severity: trend.trend === "up" ? "high" : "medium",
+          });
+        }
+      }
+    } else {
+      insights.push({
+        type: "general",
+        title: "No Active Crops",
+        description: "Add your planned or growing crops to receive personalized market and weather insights.",
+        severity: "medium",
+      });
+    }
+
+    const profile = await FarmerProfile.findOne({ farmerId: req.userId });
+    const city = profile ? profile.region || profile.district || "Pune" : "Pune";
+    let weather;
+    try {
+      weather = await getCurrentWeather(city);
+    } catch (e) {
+      weather = { temp: 28, humidity: 65, rainfall: 0 };
+    }
+    
+    const weatherRisk = analyzeFarmingRisks(weather);
+    if (weatherRisk && weatherRisk.length > 0) {
+      weatherRisk.forEach(risk => {
+        insights.push({
+          type: "weather_risk",
+          title: `Weather Alert: ${risk.severity.toUpperCase()}`,
+          description: risk.description,
+          severity: risk.severity,
+        });
+      });
+    }
+
+    res.json({ success: true, data: insights });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   getDashboard,
   getProfile,
@@ -388,4 +443,5 @@ module.exports = {
   getRevenue,
   getWeather,
   seedData,
+  getInsights,
 };

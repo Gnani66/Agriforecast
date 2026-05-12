@@ -28,7 +28,7 @@ export default function InventoryPage() {
   const [category, setCategory] = useState("All");
   const [status, setStatus] = useState("all");
   const [showModal, setShowModal] = useState(false);
-  const [form, setForm] = useState({ product: "", category: "Vegetables", quantity: 0, purchasePrice: 0, sellingPrice: 0, expiryDate: "", storageType: "Ambient", supplierName: "" });
+  const [form, setForm] = useState({ product: "", category: "Vegetables", quantity: 0, purchasePrice: 0, sellingPrice: 0, expiryDate: "", storageType: "Ambient", supplierName: "", unit: "kg" });
   const [submitting, setSubmitting] = useState(false);
 
   const fetchInventory = async () => {
@@ -65,11 +65,11 @@ export default function InventoryPage() {
       product: form.product, category: form.category, quantity: form.quantity,
       purchasePrice: form.purchasePrice, sellingPrice: form.sellingPrice,
       expiryDate: form.expiryDate || undefined, storageType: form.storageType,
-      supplierName: form.supplierName,
+      supplierName: form.supplierName, unit: form.unit
     });
     if (res.success) {
       setShowModal(false);
-      setForm({ product: "", category: "Vegetables", quantity: 0, purchasePrice: 0, sellingPrice: 0, expiryDate: "", storageType: "Ambient", supplierName: "" });
+      setForm({ product: "", category: "Vegetables", quantity: 0, purchasePrice: 0, sellingPrice: 0, expiryDate: "", storageType: "Ambient", supplierName: "", unit: "kg" });
       fetchInventory();
     }
     setSubmitting(false);
@@ -193,7 +193,17 @@ export default function InventoryPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Quantity</label>
-                  <input required type="number" min="0" value={form.quantity} onChange={e => setForm({ ...form, quantity: Number(e.target.value) })} className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-400" />
+                  <div className="flex gap-2">
+                    <input required type="number" min="0" value={form.quantity} onChange={e => setForm({ ...form, quantity: Number(e.target.value) })} className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-400" />
+                    <select value={form.unit} onChange={e => setForm({ ...form, unit: e.target.value })} className="w-24 px-2 py-2 border border-slate-300 rounded-lg bg-slate-50 text-slate-600">
+                      <option value="kg">kg</option>
+                      <option value="packets">packets</option>
+                      <option value="liters">liters</option>
+                      <option value="pieces">pieces</option>
+                      <option value="bunches">bunches</option>
+                      <option value="boxes">boxes</option>
+                    </select>
+                  </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Purchase Price (₹)</label>

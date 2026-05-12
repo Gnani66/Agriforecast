@@ -9,7 +9,7 @@ const getWeather = async (req, res) => {
     res.json({
       success: true,
       data: {
-        current: weather,
+        ...weather,
         risks,
         farmingTips: generateFarmingTips(weather)
       }

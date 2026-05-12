@@ -3,7 +3,7 @@ const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const {
   getProfile, updateProfile, getDashboard, getCrops, createCrop,
-  updateCrop, deleteCrop, getForecast, getMarket, getHarvest,
+  updateCrop, deleteCrop, getForecast, getMarket, getLiveMarket, getHarvest,
   getRevenue, getWeather, seedData
 } = require("../controllers/farmerController");
 
@@ -20,6 +20,7 @@ router.put("/crops/:id", updateCrop);
 router.delete("/crops/:id", deleteCrop);
 router.get("/forecast", getForecast);
 router.get("/market", getMarket);
+router.get("/market/live", getLiveMarket);
 router.get("/harvest", getHarvest);
 router.get("/revenue", getRevenue);
 router.get("/weather", getWeather);

@@ -26,28 +26,26 @@ export default function InsightBanner({ insights }: InsightBannerProps) {
   if (visibleInsights.length === 0) return null;
 
   return (
-    <div className="bg-emerald-600 rounded-lg p-4">
+    <div className="bg-slate-900 rounded-lg p-4">
       <div className="flex items-center gap-2 mb-3">
-        <span className="text-white/80 text-sm font-medium">AI Insights</span>
+        <span className="text-slate-400 text-xs font-medium uppercase tracking-wider">AI Insights</span>
       </div>
       <div className="space-y-2">
         {visibleInsights.map((insight, index) => {
           const config = typeConfig[insight.type];
           const Icon = config.icon;
           return (
-            <div key={index} className="flex items-start gap-3 bg-white/10 rounded-lg p-3">
-              <div className="p-1.5 bg-white/20 rounded-lg">
-                <Icon className="w-4 h-4 text-white" strokeWidth={2} />
-              </div>
-              <div className="flex-1">
-                <span className="text-xs text-white/60">{config.label}</span>
-                <p className="text-sm text-white font-medium">{insight.message}</p>
+            <div key={index} className="flex items-start gap-3 bg-white/5 rounded-md p-3">
+              <Icon className="w-4 h-4 text-slate-400 mt-0.5 shrink-0" strokeWidth={2} />
+              <div className="flex-1 min-w-0">
+                <span className="text-[10px] text-slate-500 uppercase tracking-wider">{config.label}</span>
+                <p className="text-sm text-slate-300 font-medium">{insight.message}</p>
               </div>
               <button
                 onClick={() => setDismissed([...dismissed, index])}
-                className="p-1 text-white/40 hover:text-white transition-colors"
+                className="p-1 text-slate-500 hover:text-slate-300 transition-colors"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3.5 h-3.5" />
               </button>
             </div>
           );

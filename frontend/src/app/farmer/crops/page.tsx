@@ -149,8 +149,8 @@ export default function CropsPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Planted": return "bg-blue-100 text-blue-700";
-      case "Growing": return "bg-emerald-100 text-emerald-700";
+      case "Planted": return "bg-slate-100 text-slate-700";
+      case "Growing": return "bg-slate-100 text-slate-700";
       case "Harvested": return "bg-amber-100 text-amber-700";
       case "Failed": return "bg-red-100 text-red-700";
       default: return "bg-slate-100 text-slate-700";
@@ -159,8 +159,8 @@ export default function CropsPage() {
 
   const getCategoryColor = (cat: string) => {
     switch (cat) {
-      case "Vegetable": return "bg-green-100 text-green-700";
-      case "Fruit": return "bg-orange-100 text-orange-700";
+      case "Vegetable": return "bg-slate-100 text-slate-700";
+      case "Fruit": return "bg-amber-50/50 text-amber-700";
       case "Grain": return "bg-yellow-100 text-yellow-700";
       default: return "bg-slate-100 text-slate-700";
     }
@@ -223,7 +223,7 @@ export default function CropsPage() {
           </div>
           <button
             onClick={openAddForm}
-            className="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors shadow-sm"
+            className="flex items-center gap-2 px-4 py-2.5 bg-slate-900 text-white rounded-md hover:bg-slate-800 transition-colors shadow-sm"
           >
             <Plus className="w-4 h-4" />
             Add Crop
@@ -247,7 +247,7 @@ export default function CropsPage() {
                   type="text"
                   value={form.cropName}
                   onChange={(e) => handleFormChange("cropName", e.target.value)}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-slate-400 focus:border-emerald-500 outline-none"
                   placeholder="e.g. Tomato"
                 />
               </div>
@@ -256,7 +256,7 @@ export default function CropsPage() {
                 <select
                   value={form.cropCategory}
                   onChange={(e) => handleFormChange("cropCategory", e.target.value)}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-slate-400 focus:border-emerald-500 outline-none"
                 >
                   {CROP_CATEGORIES.map((cat) => (
                     <option key={cat} value={cat}>{cat}</option>
@@ -269,7 +269,7 @@ export default function CropsPage() {
                   type="date"
                   value={form.plantingDate}
                   onChange={(e) => handleFormChange("plantingDate", e.target.value)}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-slate-400 focus:border-emerald-500 outline-none"
                 />
               </div>
               <div>
@@ -278,7 +278,7 @@ export default function CropsPage() {
                   type="date"
                   value={form.expectedHarvestDate}
                   onChange={(e) => handleFormChange("expectedHarvestDate", e.target.value)}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-slate-400 focus:border-emerald-500 outline-none"
                 />
               </div>
               <div>
@@ -288,7 +288,7 @@ export default function CropsPage() {
                   min={0}
                   value={form.quantityPlanted}
                   onChange={(e) => handleFormChange("quantityPlanted", Number(e.target.value))}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-slate-400 focus:border-emerald-500 outline-none"
                   placeholder="0"
                 />
               </div>
@@ -300,7 +300,7 @@ export default function CropsPage() {
                   step={0.01}
                   value={form.landAllocation}
                   onChange={(e) => handleFormChange("landAllocation", Number(e.target.value))}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-slate-400 focus:border-emerald-500 outline-none"
                   placeholder="0"
                 />
               </div>
@@ -312,7 +312,7 @@ export default function CropsPage() {
                   step={0.01}
                   value={form.expectedYield}
                   onChange={(e) => handleFormChange("expectedYield", Number(e.target.value))}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-slate-400 focus:border-emerald-500 outline-none"
                   placeholder="0"
                 />
               </div>
@@ -321,7 +321,7 @@ export default function CropsPage() {
                 <select
                   value={form.irrigationType}
                   onChange={(e) => handleFormChange("irrigationType", e.target.value)}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-slate-400 focus:border-emerald-500 outline-none"
                 >
                   {IRRIGATION_TYPES.map((irr) => (
                     <option key={irr} value={irr}>{irr}</option>
@@ -333,7 +333,7 @@ export default function CropsPage() {
                 <select
                   value={form.status}
                   onChange={(e) => handleFormChange("status", e.target.value)}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-slate-400 focus:border-emerald-500 outline-none"
                 >
                   {CROP_STATUSES.map((s) => (
                     <option key={s} value={s}>{s}</option>
@@ -345,7 +345,7 @@ export default function CropsPage() {
               <button
                 onClick={handleSubmit}
                 disabled={submitting}
-                className="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50 shadow-sm"
+                className="px-6 py-2 bg-slate-900 text-white rounded-md hover:bg-slate-800 transition-colors disabled:opacity-50 shadow-sm"
               >
                 {submitting ? "Saving..." : editingId ? "Update Crop" : "Add Crop"}
               </button>
@@ -366,7 +366,7 @@ export default function CropsPage() {
             <p className="text-sm text-slate-500 mb-4">Start by adding your first crop entry</p>
             <button
               onClick={openAddForm}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-md hover:bg-slate-800 transition-colors shadow-sm"
             >
               <Plus className="w-4 h-4" />
               Add Crop
@@ -404,7 +404,7 @@ export default function CropsPage() {
                 <div className="flex gap-2 mt-4 pt-3 border-t border-slate-100">
                   <button
                     onClick={() => openEditForm(crop)}
-                    className="flex items-center gap-1 text-sm text-slate-600 hover:text-emerald-600 transition-colors px-3 py-1.5 rounded hover:bg-emerald-50"
+                    className="flex items-center gap-1 text-sm text-slate-600 hover:text-slate-500 transition-colors px-3 py-1.5 rounded hover:bg-slate-50"
                   >
                     <Edit2 className="w-3.5 h-3.5" />
                     Edit

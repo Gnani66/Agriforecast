@@ -2,7 +2,6 @@
 
 import { useAuth } from "@/context/AuthContext";
 import { User, Mail, MapPin, Building, Shield, HelpCircle } from "lucide-react";
-import { motion } from "framer-motion";
 
 export default function DistributorSettings() {
   const { user } = useAuth();
@@ -16,8 +15,7 @@ export default function DistributorSettings() {
 
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
+          <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
             <h2 className="font-semibold text-slate-900 mb-4">Company Information</h2>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
@@ -49,12 +47,12 @@ export default function DistributorSettings() {
                 </div>
               </div>
             </div>
-            <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            <button className="mt-4 px-4 py-2 bg-slate-900 text-white rounded-md hover:bg-slate-800">
               Update Company Info
             </button>
-          </motion.div>
+          </div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+          <div
             className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
             <h2 className="font-semibold text-slate-900 mb-4">Notifications</h2>
             <div className="space-y-4">
@@ -67,17 +65,17 @@ export default function DistributorSettings() {
               ].map((item) => (
                 <div key={item.label} className="flex items-center justify-between">
                   <span className="text-slate-700">{item.label}</span>
-                  <button className={`w-12 h-6 rounded-full transition-colors ${item.enabled ? "bg-blue-600" : "bg-slate-300"}`}>
+                  <button className={`w-12 h-6 rounded-full transition-colors ${item.enabled ? "bg-slate-900" : "bg-slate-300"}`}>
                     <div className={`w-5 h-5 bg-white rounded-full shadow transition-transform ${item.enabled ? "translate-x-6" : "translate-x-0.5"}`} />
                   </button>
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
 
         <div className="space-y-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
+          <div
             className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-slate-100 rounded-lg">
@@ -90,9 +88,9 @@ export default function DistributorSettings() {
               <button className="w-full text-left px-3 py-2 text-slate-600 hover:bg-slate-50 rounded-lg">Two-Factor Auth</button>
               <button className="w-full text-left px-3 py-2 text-slate-600 hover:bg-slate-50 rounded-lg">Active Sessions</button>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+          <div
             className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-slate-100 rounded-lg">
@@ -105,7 +103,7 @@ export default function DistributorSettings() {
               <button className="w-full text-left px-3 py-2 text-slate-600 hover:bg-slate-50 rounded-lg">Contact Support</button>
               <button className="w-full text-left px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg">Sign Out</button>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>

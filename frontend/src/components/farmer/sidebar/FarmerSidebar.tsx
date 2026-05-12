@@ -3,137 +3,94 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard,
-  TrendingUp,
-  Leaf,
+  BarChart3,
+  Bell,
+  Bot,
   Calendar,
   CloudSun,
-  BarChart3,
-  Bot,
-  Settings,
+  Grid2X2,
+  Leaf,
+  LineChart,
   LogOut,
+  Settings,
   Sprout,
+  X,
 } from "lucide-react";
 
-interface SidebarItem {
-  label: string;
-  href: string;
-  icon: React.ElementType;
-  badge?: string;
-}
-
-interface SidebarSection {
-  title: string;
-  items: SidebarItem[];
-}
-
-const sidebarSections: SidebarSection[] = [
-  {
-    title: "Main",
-    items: [
-      { label: "Dashboard", href: "/farmer/dashboard", icon: LayoutDashboard },
-      { label: "Forecasting", href: "/farmer/forecast", icon: TrendingUp },
-      { label: "Crop Intelligence", href: "/farmer/crops", icon: Leaf },
-      { label: "Harvest Planning", href: "/farmer/harvest", icon: Calendar },
-    ]
-  },
-  {
-    title: "Intelligence",
-    items: [
-      { label: "Weather", href: "/farmer/weather", icon: CloudSun },
-      { label: "Market Trends", href: "/farmer/market", icon: BarChart3 },
-      { label: "AI Insights", href: "/farmer/insights", icon: TrendingUp },
-    ]
-  },
-  {
-    title: "Tools",
-    items: [
-      { label: "AI Assistant", href: "/farmer/assistant", icon: Bot },
-      { label: "Settings", href: "/farmer/settings", icon: Settings },
-    ]
-  }
+const menu = [
+  { label: "Dashboard", href: "/farmer/dashboard", icon: Grid2X2 },
+  { label: "My Produce", href: "/farmer/crops", icon: Sprout },
+  { label: "Forecasting", href: "/farmer/forecast", icon: LineChart },
+  { label: "Harvest Planning", href: "/farmer/harvest", icon: Calendar },
+  { label: "Weather", href: "/farmer/weather", icon: CloudSun },
+  { label: "Market Trends", href: "/farmer/market", icon: BarChart3 },
+  { label: "AI Insights", href: "/farmer/insights", icon: Bot },
+  { label: "Notifications", href: "/farmer/assistant", icon: Bell },
+  { label: "Settings", href: "/farmer/settings", icon: Settings },
 ];
 
-interface FarmerSidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export default function FarmerSidebar({ isOpen, onClose }: FarmerSidebarProps) {
+export default function FarmerSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const pathname = usePathname();
-
-  const isActive = (href: string) => pathname === href;
 
   return (
     <>
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-          onClick={onClose}
-        />
-      )}
+      {isOpen && <div className="fixed inset-0 z-40 bg-black/40 lg:hidden" onClick={onClose} />}
 
-      <aside className={`
-        fixed top-0 left-0 z-50 h-full w-64 bg-white border-r border-slate-200
-        transform transition-transform duration-300 ease-in-out
-        lg:translate-x-0 lg:static lg:z-auto
-        ${isOpen ? "translate-x-0" : "-translate-x-full"}
-      `}>
-        <div className="h-16 flex items-center px-5 border-b border-slate-200">
-          <Link href="/farmer/dashboard" className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-emerald-600 rounded-lg flex items-center justify-center">
-              <Sprout className="w-5 h-5 text-white" strokeWidth={1.8} />
+      <aside
+        className={`
+          fixed left-0 top-0 z-50 flex h-full w-64 flex-col border-r border-slate-200 bg-white
+          transition-transform duration-300 ease-in-out lg:static lg:z-auto lg:translate-x-0
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+        `}
+      >
+        <div className="flex h-16 items-center justify-between border-b border-slate-100 px-6">
+          <Link href="/farmer/dashboard" className="flex items-center gap-3" onClick={onClose}>
+            <div className="flex h-8 w-8 items-center justify-center rounded bg-slate-950 text-white shadow-sm">
+              <Leaf className="h-4 w-4" />
             </div>
             <div>
-              <span className="text-base font-semibold text-slate-900">AgriForecast</span>
-              <span className="block text-[10px] text-slate-500 -mt-0.5">Farmer Portal</span>
+              <p className="text-sm font-semibold tracking-tight text-slate-900">AgriFlow AI</p>
             </div>
           </Link>
+          <button onClick={onClose} className="rounded-md p-1.5 text-slate-400 hover:bg-slate-50 lg:hidden">
+            <X className="h-4 w-4" />
+          </button>
         </div>
 
-        <nav className="p-3 space-y-1 overflow-y-auto h-[calc(100vh-4rem)]">
-          {sidebarSections.map((section) => (
-            <div key={section.title} className="mb-4">
-              <p className="px-3 py-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-                {section.title}
-              </p>
-              {section.items.map((item) => {
-                const active = isActive(item.href);
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => onClose()}
-                    className={`
-                      flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200
-                      ${active
-                        ? "bg-emerald-600 text-white shadow-sm"
-                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                      }
-                    `}
-                  >
-                    <item.icon className={`w-5 h-5 ${active ? "text-white" : "text-slate-400"}`} strokeWidth={1.5} />
-                    {item.label}
-                    {item.badge && (
-                      <span className={`ml-auto px-2 py-0.5 text-xs font-medium rounded-full ${
-                        active ? "bg-white/20 text-white" : "bg-emerald-50 text-emerald-700"
-                      }`}>
-                        {item.badge}
-                      </span>
-                    )}
-                  </Link>
-                );
-              })}
-            </div>
-          ))}
-
-          <div className="pt-4 border-t border-slate-200 space-y-1">
-            <button className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
-              <LogOut className="w-5 h-5" strokeWidth={1.5} />
-              Logout
-            </button>
+        <nav className="flex-1 overflow-y-auto px-3 py-6">
+          <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-wider text-slate-400">Overview</p>
+          <div className="space-y-0.5">
+            {menu.map((item) => {
+              const active = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={onClose}
+                  className={`flex h-9 items-center gap-3 rounded-md px-3 text-sm font-medium transition ${
+                    active
+                      ? "bg-slate-100 text-slate-900"
+                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  }`}
+                >
+                  <item.icon className={`h-4 w-4 ${active ? "text-slate-900" : "text-slate-400"}`} />
+                  {item.label}
+                </Link>
+              );
+            })}
           </div>
         </nav>
+
+        <div className="border-t border-slate-100 p-4">
+          <div className="rounded-md border border-slate-200 bg-slate-50 p-3">
+            <p className="text-xs font-semibold text-slate-900">Farm workspace</p>
+            <p className="mt-0.5 text-xs text-slate-500">Produce supplier</p>
+          </div>
+          <Link href="/" className="mt-2 flex h-9 items-center gap-3 rounded-md px-3 text-sm font-medium text-slate-600 transition hover:bg-red-50 hover:text-red-600">
+            <LogOut className="h-4 w-4 text-slate-400 group-hover:text-red-600" />
+            Logout
+          </Link>
+        </div>
       </aside>
     </>
   );

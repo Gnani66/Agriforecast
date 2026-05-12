@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Download, Plus } from "lucide-react";
+import { AlertTriangle, CalendarClock, Download, Filter, Leaf, PackageCheck, Plus, TrendingUp } from "lucide-react";
 import FarmerLayout from "@/layouts/FarmerLayout";
 import {
   ActionButton,
+  AlertCard,
   DashboardHeader,
   EmptyState,
   KpiCard,
@@ -70,17 +71,18 @@ export default function FarmerDashboardPage() {
   }
 
   const hasCrops = data.recentCrops.length > 0;
-  const harvestCoverage = data.cropPlansCount > 0 ? Math.round((data.readyForHarvest / data.cropPlansCount) * 100) : 0;
+  const harvestCoverage = data.cropPlansCount > 0 ? Math.round(((data.readyForHarvest ?? 0) / data.cropPlansCount) * 100) : 0;
 
   return (
     <FarmerLayout>
       <div className="space-y-6">
         <DashboardHeader
           eyebrow="Farmer operations"
-          title="Production control room"
-          description="A concise operating view of crop plans, harvest windows, demand pressure, market rates, and weather risk."
+          title="Farm Operations"
+          description="Track harvest readiness, pickup planning, weather exposure, and price forecasts."
           actions={
             <>
+              <ActionButton variant="secondary" icon={Filter}>Filters</ActionButton>
               <ActionButton variant="secondary" icon={Download}>Export</ActionButton>
               <ActionButton href="/farmer/harvest" icon={Plus}>Plan harvest</ActionButton>
             </>
@@ -95,11 +97,40 @@ export default function FarmerDashboardPage() {
           />
         )}
 
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <KpiCard label="Crop plans" value={data.cropPlansCount} detail={`${data.activeCrops} active`} tone="emerald" />
-          <KpiCard label="Demand index" value={`${data.demandIndex ?? 0}%`} progress={data.demandIndex ?? 0} detail="Market pull" />
-          <KpiCard label="Ready for harvest" value={data.readyForHarvest} progress={harvestCoverage} detail={`${harvestCoverage}% of plans`} tone="amber" />
+        <div className="grid gap-4 xl:grid-cols-2">
+          {(data.demandIndex ?? 0) > 70 && (
+            <AlertCard
+              icon={TrendingUp}
+              title="Demand spike detected"
+              meta="Market signal"
+              description={`${data.recentCrops[0]?.cropName ?? "Crop"} demand is ${data.demandIndex}% against the current forecast.`}
+            />
+          )}
+          {data.upcomingHarvests.slice(0, 2).map((harvest) => (
+            <AlertCard
+              key={harvest._id}
+              icon={PackageCheck}
+              title={`${harvest.cropName} harvest approaching`}
+              meta={formatDate(harvest.expectedHarvestDate)}
+              description={`${harvest.expectedYield} qtl expected from ${harvest.landAllocation} acres. Review pickup and pricing before the harvest window.`}
+            />
+          ))}
+          {data.weatherRiskLevel !== "low" && (
+            <AlertCard
+              icon={AlertTriangle}
+              title="Weather risk needs attention"
+              meta={`${data.weatherRiskLevel} risk`}
+              description={`Weather risk score is ${data.weatherRisk}. Check the weather workspace before confirming harvest movement.`}
+            />
+          )}
+        </div>
+
+        <div className="grid gap-5 lg:grid-cols-2">
+          <KpiCard icon={Leaf} label="Crop Plans" value={data.cropPlansCount} detail={`${data.activeCrops} active plans`} tone="emerald" />
+          <KpiCard icon={TrendingUp} label="Demand Index" value={`${data.demandIndex ?? 0}%`} progress={data.demandIndex ?? 0} detail="Market pull" />
+          <KpiCard icon={PackageCheck} label="Harvest Ready" value={data.readyForHarvest} progress={harvestCoverage} detail={`${harvestCoverage}% of plans`} tone="amber" />
           <KpiCard
+            icon={CalendarClock}
             label="Forecasted revenue"
             value={formatCurrency(data.forecastedRevenue ?? 0)}
             detail={`${data.weatherRiskLevel ?? "low"} weather risk`}
@@ -108,7 +139,7 @@ export default function FarmerDashboardPage() {
         </div>
 
         <div className="grid gap-6 xl:grid-cols-[1.55fr_1fr]">
-          <Panel title="Crop Pipeline" description="Recent plans sorted by activity and readiness.">
+          <Panel title="Crop Intelligence" description="Live crop plans, harvest timing, and production readiness.">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[720px] text-sm">
                 <thead>
@@ -137,7 +168,7 @@ export default function FarmerDashboardPage() {
             </div>
           </Panel>
 
-          <Panel title="Harvest Queue" description="Near-term crop movement.">
+          <Panel title="Pending Pickups" description="Near-term crop movement.">
             <div className="divide-y divide-slate-100 px-5">
               {data.upcomingHarvests.length > 0 ? (
                 data.upcomingHarvests.map((harvest) => (
@@ -158,7 +189,7 @@ export default function FarmerDashboardPage() {
           </Panel>
         </div>
 
-        <Panel title="Market Prices" description="Wholesale reference prices for crops currently in planning.">
+        <Panel title="Price Forecast" description="Wholesale reference prices for crops currently in planning.">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[640px] text-sm">
               <thead>

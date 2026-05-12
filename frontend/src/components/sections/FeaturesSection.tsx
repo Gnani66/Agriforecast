@@ -39,7 +39,7 @@ export default function FeaturesSection() {
         viewport={{ once: true }}
         className="mx-auto mb-16 max-w-3xl text-center"
       >
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-700">
           Capabilities
         </p>
         <h2 className="mt-4 text-3xl font-semibold text-slate-950 md:text-5xl">
@@ -60,7 +60,6 @@ export default function FeaturesSection() {
             transition={{ delay: index * 0.05 }}
             className="rounded-lg border border-slate-200 bg-white p-6 transition hover:border-slate-300"
           >
-            <p className="mb-6 text-xs font-semibold text-slate-400">{String(index + 1).padStart(2, "0")}</p>
             <h3 className="text-lg font-semibold text-slate-950">{feature.title}</h3>
             <p className="mt-3 text-sm leading-6 text-slate-600">{feature.description}</p>
           </motion.div>

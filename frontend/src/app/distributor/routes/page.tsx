@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
   Route,
   TrendingUp,
@@ -18,10 +17,10 @@ import {
 } from "recharts";
 
 const colorMap: Record<string, string> = {
-  blue: "bg-blue-50 text-blue-600",
-  emerald: "bg-emerald-50 text-emerald-600",
-  purple: "bg-purple-50 text-purple-600",
-  orange: "bg-orange-50 text-orange-600",
+  blue: "bg-slate-50 text-slate-500",
+  emerald: "bg-slate-50 text-slate-500",
+  purple: "bg-slate-50 text-slate-500",
+  orange: "bg-slate-50 text-slate-500",
 };
 
 export default function RoutesPage() {
@@ -39,8 +38,7 @@ export default function RoutesPage() {
           { label: "Fuel Saved", icon: Fuel, color: "purple" },
           { label: "Time Saved", icon: Clock, color: "orange" },
         ].map((stat, i) => (
-          <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-            className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
+          <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
             <div className="flex items-center gap-3">
               <div className={`p-2 rounded-lg ${colorMap[stat.color]}`}>
                 <stat.icon className="w-5 h-5" />
@@ -50,7 +48,7 @@ export default function RoutesPage() {
                 <p className="text-sm text-slate-500">{stat.label}</p>
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 
@@ -65,8 +63,8 @@ export default function RoutesPage() {
                   <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="fuelOptimized" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#18181b" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#18181b" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
@@ -74,7 +72,7 @@ export default function RoutesPage() {
               <YAxis tick={{ fontSize: 12 }} stroke="#94a3b8" />
               <Tooltip />
               <Area type="monotone" dataKey="fuelUsed" stroke="#ef4444" fill="url(#fuelUsed)" strokeWidth={2} name="Current Usage" />
-              <Area type="monotone" dataKey="optimized" stroke="#22c55e" fill="url(#fuelOptimized)" strokeWidth={2} name="Optimized" />
+              <Area type="monotone" dataKey="optimized" stroke="#18181b" fill="url(#fuelOptimized)" strokeWidth={2} name="Optimized" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -94,10 +92,10 @@ export default function RoutesPage() {
         </div>
       </div>
 
-      <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
+      <div className="bg-slate-50 rounded-lg p-6 border border-slate-200">
         <div className="flex items-start gap-4">
-          <div className="p-3 bg-blue-100 rounded-lg">
-            <Route className="w-6 h-6 text-blue-600" />
+          <div className="p-3 bg-slate-100 rounded-lg">
+            <Route className="w-6 h-6 text-slate-500" />
           </div>
           <div>
             <h3 className="font-semibold text-slate-900 mb-2">AI Route Optimization</h3>

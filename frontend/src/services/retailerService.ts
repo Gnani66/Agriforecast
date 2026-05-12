@@ -6,6 +6,7 @@ import type {
   ProcurementRecommendation,
   SalesRecord,
   DemandForecastPoint,
+  AIInsight,
 } from '@/types';
 
 interface InventoryParams {

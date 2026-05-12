@@ -110,7 +110,7 @@ export default function ForecastPage() {
             {chartData.length > 0 && (
               <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <TrendingUp className="w-5 h-5 text-emerald-500" />
+                  <TrendingUp className="w-5 h-5 text-slate-500" />
                   <h3 className="text-lg font-semibold text-slate-900">Demand Forecast Trend</h3>
                 </div>
                 <div className="h-72">
@@ -118,15 +118,15 @@ export default function ForecastPage() {
                     <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                       <defs>
                         <linearGradient id="colorForecast" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#059669" stopOpacity={0.2} />
-                          <stop offset="95%" stopColor="#059669" stopOpacity={0} />
+                          <stop offset="5%" stopColor="#18181b" stopOpacity={0.2} />
+                          <stop offset="95%" stopColor="#18181b" stopOpacity={0} />
                         </linearGradient>
                       </defs>
                       <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                       <XAxis dataKey="period" axisLine={false} tickLine={false} tick={{ fill: "#94a3b8", fontSize: 12 }} />
                       <YAxis axisLine={false} tickLine={false} tick={{ fill: "#94a3b8", fontSize: 12 }} />
                       <Tooltip />
-                      <Area type="monotone" dataKey="value" stroke="#059669" strokeWidth={2} fill="url(#colorForecast)" />
+                      <Area type="monotone" dataKey="value" stroke="#18181b" strokeWidth={2} fill="url(#colorForecast)" />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
@@ -159,7 +159,7 @@ export default function ForecastPage() {
                           <span
                             className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${
                               f.confidence >= 80
-                                ? "bg-emerald-100 text-emerald-700"
+                                ? "bg-slate-100 text-slate-700"
                                 : f.confidence >= 60
                                   ? "bg-amber-100 text-amber-700"
                                   : "bg-red-100 text-red-700"

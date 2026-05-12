@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
   Truck,
   Wrench,
@@ -10,11 +9,11 @@ import {
 } from "lucide-react";
 
 const colorMap: Record<string, string> = {
-  blue: "bg-blue-50 text-blue-600",
-  emerald: "bg-emerald-50 text-emerald-600",
+  blue: "bg-slate-50 text-slate-500",
+  emerald: "bg-slate-50 text-slate-500",
   amber: "bg-amber-50 text-amber-600",
   red: "bg-red-50 text-red-600",
-  purple: "bg-purple-50 text-purple-600",
+  purple: "bg-slate-50 text-slate-500",
 };
 
 export default function FleetPage() {
@@ -33,8 +32,7 @@ export default function FleetPage() {
           { label: "Maintenance", icon: Wrench, color: "red" },
           { label: "Avg Efficiency", icon: TrendingUp, color: "purple" },
         ].map((stat, i) => (
-          <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-            className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
+          <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
             <div className="flex items-center gap-3">
               <div className={`p-2 rounded-lg ${colorMap[stat.color]}`}>
                 <stat.icon className="w-5 h-5" />
@@ -44,14 +42,14 @@ export default function FleetPage() {
                 <p className="text-sm text-slate-500">{stat.label}</p>
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 
       <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
         <div className="flex items-center justify-between mb-6">
           <h3 className="font-semibold text-slate-900">Vehicle Fleet</h3>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
+          <button className="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm hover:bg-slate-800">
             Add Vehicle
           </button>
         </div>

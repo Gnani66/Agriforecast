@@ -44,8 +44,7 @@ export default function ProblemSection() {
       <div className="grid border-t border-slate-200 md:grid-cols-2 lg:grid-cols-5">
         {problems.map((problem, index) => (
           <motion.div key={problem.title} initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.05 }} className="border-b border-slate-200 py-6 md:pr-6 lg:border-r lg:px-5 lg:first:pl-0 lg:last:border-r-0">
-            <p className="text-xs font-semibold text-slate-400">{String(index + 1).padStart(2, "0")}</p>
-            <h3 className="mt-4 text-base font-semibold text-slate-950">{problem.title}</h3>
+            <h3 className="text-base font-semibold text-slate-950">{problem.title}</h3>
             <p className="mt-3 text-sm leading-6 text-slate-600">{problem.description}</p>
           </motion.div>
         ))}

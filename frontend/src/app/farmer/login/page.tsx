@@ -90,10 +90,10 @@ export default function FarmerLogin() {
 
         <div className="flex items-center justify-between text-sm">
           <label className="flex items-center gap-2 text-slate-600">
-            <input type="checkbox" className="h-4 w-4 rounded border-slate-300 text-emerald-600" />
+            <input type="checkbox" className="h-4 w-4 rounded border-slate-300 text-slate-500" />
             Remember this device
           </label>
-          <Link href="/contact" className="font-medium text-emerald-700 hover:text-emerald-900">
+          <Link href="/contact" className="font-medium text-slate-700 hover:text-slate-900">
             Reset password
           </Link>
         </div>

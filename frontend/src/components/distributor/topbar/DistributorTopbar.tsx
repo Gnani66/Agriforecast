@@ -1,37 +1,62 @@
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
-import { Bell, Menu, Search, User } from "lucide-react";
+import { Bell, Bot, ChevronDown, Menu, Search, User } from "lucide-react";
 
 export default function DistributorTopbar({ onMenuClick }: { onMenuClick: () => void }) {
   const { user } = useAuth();
 
+  const initials = String(user?.companyName || user?.name || "Distributor")
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
   return (
-    <header className="bg-white border-b border-slate-200 px-4 lg:px-6 py-4">
-      <div className="flex items-center justify-between">
+    <header className="border-b border-slate-200 bg-white px-4 py-3 lg:px-8">
+      <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <button onClick={onMenuClick} className="lg:hidden text-slate-500 hover:text-slate-700">
-            <Menu className="w-6 h-6" />
+          <button onClick={onMenuClick} className="rounded-md p-1.5 text-slate-600 transition-colors hover:bg-slate-50 lg:hidden">
+            <Menu className="h-5 w-5" />
           </button>
-          <div className="relative hidden sm:block">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <input
-              type="text"
-              placeholder="Search shipments, routes..."
-              className="w-64 lg:w-80 pl-10 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
+          <div className="hidden min-w-56 lg:block">
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Operations Control</p>
+            <p className="text-lg font-semibold tracking-tight text-slate-900 mt-0.5">AgriFlow AI Platform</p>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center gap-2">
-            <span className="text-sm text-slate-600">{String(user?.companyName || "Logistics Company")}</span>
+
+        <div className="hidden flex-1 items-center justify-end gap-3 md:flex">
+          <div className="flex h-9 w-full max-w-sm items-center gap-2 rounded-md border border-slate-200 bg-slate-50/50 px-3 transition-colors focus-within:border-slate-300 focus-within:bg-white shadow-sm">
+            <Search className="h-4 w-4 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search shipments, routes, fleet..."
+              className="w-full bg-transparent text-sm text-slate-900 outline-none placeholder:text-slate-400"
+            />
           </div>
-          <button className="relative p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg">
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+
+          <div className="hidden h-9 items-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 shadow-sm xl:flex">
+            <Bot className="h-3.5 w-3.5 text-slate-400" />
+            AI active
+            <span className="relative flex h-2 w-2 ml-1">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-slate-500"></span>
+            </span>
+          </div>
+
+          <button className="hidden h-9 items-center gap-2 rounded-md border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 lg:flex">
+            Distributor
+            <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
           </button>
-          <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-            <User className="w-4 h-4 text-blue-600" />
+
+          <button className="relative flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-50">
+            <Bell className="h-4 w-4" />
+            <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-red-500" />
+          </button>
+
+          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-slate-900 text-xs font-bold text-white shadow-sm">
+            {initials || "DT"}
           </div>
         </div>
       </div>

@@ -29,6 +29,9 @@ export const farmerService = {
   getMarketPrices: (crop?: string) =>
     api.get<MarketPrice[]>(`/farmer/market${crop ? `?crop=${encodeURIComponent(crop)}` : ''}`),
 
+  getLiveMarketPrices: () =>
+    api.get<any[]>('/farmer/market/live'),
+
   getHarvestReady: () =>
     api.get<CropEntry[]>('/farmer/harvest'),
 

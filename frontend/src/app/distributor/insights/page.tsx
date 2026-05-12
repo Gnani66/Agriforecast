@@ -3,12 +3,12 @@
 import { Brain } from "lucide-react";
 
 const categoryData = [
-  { label: "Weather", count: 0, color: "bg-blue-500" },
+  { label: "Weather", count: 0, color: "bg-slate-500" },
   { label: "Capacity", count: 0, color: "bg-red-500" },
-  { label: "Demand", count: 0, color: "bg-emerald-500" },
-  { label: "Efficiency", count: 0, color: "bg-purple-500" },
-  { label: "Maintenance", count: 0, color: "bg-orange-500" },
-  { label: "Forecast", count: 0, color: "bg-cyan-500" },
+  { label: "Demand", count: 0, color: "bg-slate-900" },
+  { label: "Efficiency", count: 0, color: "bg-slate-500" },
+  { label: "Maintenance", count: 0, color: "bg-slate-500" },
+  { label: "Forecast", count: 0, color: "bg-slate-500" },
 ];
 
 export default function DistributorInsights() {
@@ -19,9 +19,9 @@ export default function DistributorInsights() {
         <p className="text-slate-500">Intelligent supply chain intelligence</p>
       </div>
 
-      <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+      <div className="bg-slate-50 rounded-lg p-4 border border-slate-200">
         <p className="text-sm text-slate-600">
-          <span className="font-medium text-blue-700">AI Status: </span>
+          <span className="font-medium text-slate-700">AI Status: </span>
           Connect fleet and warehouse data to activate AI-powered insights.
         </p>
       </div>

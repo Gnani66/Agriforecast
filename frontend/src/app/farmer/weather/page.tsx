@@ -34,10 +34,10 @@ function renderWeatherIcon(condition: string, className: string) {
 
 function getSeverityColor(severity: string) {
   switch (severity) {
-    case "high": return "bg-red-100 border-red-300 text-red-700";
-    case "medium": return "bg-amber-100 border-amber-300 text-amber-700";
-    case "low": return "bg-yellow-100 border-yellow-300 text-yellow-700";
-    default: return "bg-slate-100 border-slate-300 text-slate-700";
+    case "high": return "bg-red-50/50 border-red-200/50 text-red-700";
+    case "medium": return "bg-amber-50/50 border-amber-200/50 text-amber-700";
+    case "low": return "bg-slate-50 border-slate-200 text-slate-700";
+    default: return "bg-slate-50 border-slate-200 text-slate-700";
   }
 }
 
@@ -75,31 +75,31 @@ export default function WeatherPage() {
       <FarmerLayout>
         <div className="space-y-6">
           <div>
-            <div className="h-8 w-52 bg-slate-200 rounded animate-pulse" />
-            <div className="h-4 w-64 bg-slate-100 rounded mt-2 animate-pulse" />
+            <div className="h-6 w-52 bg-slate-100 rounded animate-pulse" />
+            <div className="h-4 w-64 bg-slate-50 rounded mt-2 animate-pulse" />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 bg-white rounded-lg border border-slate-200 shadow-sm p-6">
               <div className="flex items-center gap-4 mb-6">
-                <div className="p-4 bg-slate-100 rounded-lg animate-pulse h-[72px] w-[72px]" />
+                <div className="h-[56px] w-[56px] bg-slate-100 rounded-md animate-pulse" />
                 <div>
-                  <div className="h-4 w-28 bg-slate-200 rounded animate-pulse" />
-                  <div className="h-10 w-24 bg-slate-100 rounded animate-pulse mt-2" />
+                  <div className="h-4 w-28 bg-slate-100 rounded animate-pulse" />
+                  <div className="h-8 w-24 bg-slate-50 rounded animate-pulse mt-2" />
                 </div>
               </div>
               <div className="grid grid-cols-3 gap-4">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-16 bg-slate-100 rounded animate-pulse" />
+                  <div key={i} className="h-16 bg-slate-50 rounded-md animate-pulse" />
                 ))}
               </div>
             </div>
             <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-5">
-              <div className="h-5 w-20 bg-slate-200 rounded animate-pulse mb-4" />
+              <div className="h-5 w-20 bg-slate-100 rounded animate-pulse mb-4" />
               <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="flex items-center justify-between">
-                    <div className="h-4 w-20 bg-slate-100 rounded animate-pulse" />
-                    <div className="h-4 w-12 bg-slate-100 rounded animate-pulse" />
+                    <div className="h-4 w-20 bg-slate-50 rounded animate-pulse" />
+                    <div className="h-4 w-12 bg-slate-50 rounded animate-pulse" />
                   </div>
                 ))}
               </div>
@@ -114,11 +114,11 @@ export default function WeatherPage() {
     return (
       <FarmerLayout>
         <div className="space-y-6">
-          <h1 className="text-2xl font-bold text-slate-900">Weather Analysis</h1>
-          <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-            <AlertTriangle className="w-8 h-8 text-red-400 mx-auto mb-2" />
-            <p className="text-red-700 font-medium">Error loading weather data</p>
-            <p className="text-red-500 text-sm mt-1">{error}</p>
+          <h1 className="text-xl font-semibold text-slate-900">Weather Analysis</h1>
+          <div className="bg-red-50/50 border border-red-200/50 rounded-lg p-6 text-center">
+            <AlertTriangle className="w-6 h-6 text-red-400 mx-auto mb-2" />
+            <p className="text-red-700 font-medium text-sm">Error loading weather data</p>
+            <p className="text-red-500 text-xs mt-1">{error}</p>
           </div>
         </div>
       </FarmerLayout>
@@ -130,18 +130,19 @@ export default function WeatherPage() {
   return (
     <FarmerLayout>
       <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-200">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Weather Analysis</h1>
-            <p className="text-slate-500 mt-1">Real-time weather intelligence for farming decisions</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-slate-500">Weather intelligence</p>
+            <h1 className="text-xl font-semibold text-slate-900 mt-1">Weather Analysis</h1>
+            <p className="text-sm text-slate-500 mt-1">Real-time weather intelligence for farming decisions</p>
           </div>
         </div>
 
         {weather.risks && weather.risks.length > 0 && (
           <div className="space-y-2">
             {weather.risks.map((risk, i) => (
-              <div key={i} className={`flex items-start gap-3 p-4 rounded-lg border ${getSeverityColor(risk.severity)}`}>
-                <AlertTriangle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+              <div key={i} className={`flex items-start gap-3 p-3 rounded-md border ${getSeverityColor(risk.severity)}`}>
+                <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="font-medium text-sm capitalize">{risk.type}</p>
                   <p className="text-sm mt-0.5">{risk.message}</p>
@@ -154,26 +155,24 @@ export default function WeatherPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 bg-white rounded-lg border border-slate-200 shadow-sm p-6">
             <div className="flex items-center gap-4">
-              <div className="p-4 bg-blue-50 rounded-lg">
-                                {renderWeatherIcon(weather.condition, "w-10 h-10 text-blue-500")}
-              </div>
+              {renderWeatherIcon(weather.condition, "w-10 h-10 text-slate-400")}
               <div>
-                <p className="text-sm text-slate-500">{weather.city} - {weather.condition}</p>
-                <p className="text-4xl font-bold text-slate-900">{Math.round(weather.temp)} C</p>
-                <p className="text-sm text-slate-500">Feels like {Math.round(weather.feelsLike)} C</p>
+                <p className="text-sm text-slate-500">{weather.city} — {weather.condition}</p>
+                <p className="text-3xl font-semibold text-slate-900">{Math.round(weather.temp)}°C</p>
+                <p className="text-xs text-slate-500">Feels like {Math.round(weather.feelsLike)}°C</p>
               </div>
             </div>
             <div className="mt-6 grid grid-cols-3 gap-4 text-center text-sm">
-              <div className="bg-slate-50 rounded-lg p-3">
-                <p className="text-slate-500">Rainfall</p>
+              <div className="bg-slate-50 rounded-md p-3">
+                <p className="text-xs text-slate-500">Rainfall</p>
                 <p className="font-semibold text-slate-900">{weather.rainfall ?? 0} mm</p>
               </div>
-              <div className="bg-slate-50 rounded-lg p-3">
-                <p className="text-slate-500">Pressure</p>
+              <div className="bg-slate-50 rounded-md p-3">
+                <p className="text-xs text-slate-500">Pressure</p>
                 <p className="font-semibold text-slate-900">{weather.pressure} hPa</p>
               </div>
-              <div className="bg-slate-50 rounded-lg p-3">
-                <p className="text-slate-500">Visibility</p>
+              <div className="bg-slate-50 rounded-md p-3">
+                <p className="text-xs text-slate-500">Visibility</p>
                 <p className="font-semibold text-slate-900">{(weather.visibility / 1000).toFixed(1)} km</p>
               </div>
             </div>
@@ -181,28 +180,28 @@ export default function WeatherPage() {
 
           <div className="space-y-4">
             <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-5">
-              <h3 className="font-semibold text-slate-900 mb-4">Details</h3>
+              <h3 className="text-sm font-semibold text-slate-900 mb-4">Details</h3>
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <Thermometer className="w-5 h-5 text-orange-500" />
+                    <Thermometer className="w-4 h-4 text-slate-400" />
                     <span className="text-sm text-slate-600">Temperature</span>
                   </div>
-                  <span className="font-medium text-slate-900">{Math.round(weather.temp)} C</span>
+                  <span className="font-medium text-sm text-slate-900">{Math.round(weather.temp)}°C</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <Droplets className="w-5 h-5 text-blue-500" />
+                    <Droplets className="w-4 h-4 text-slate-400" />
                     <span className="text-sm text-slate-600">Humidity</span>
                   </div>
-                  <span className="font-medium text-slate-900">{weather.humidity}%</span>
+                  <span className="font-medium text-sm text-slate-900">{weather.humidity}%</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <Wind className="w-5 h-5 text-slate-500" />
+                    <Wind className="w-4 h-4 text-slate-400" />
                     <span className="text-sm text-slate-600">Wind Speed</span>
                   </div>
-                  <span className="font-medium text-slate-900">{weather.wind} km/h</span>
+                  <span className="font-medium text-sm text-slate-900">{weather.wind} km/h</span>
                 </div>
               </div>
             </div>
@@ -211,24 +210,24 @@ export default function WeatherPage() {
 
         {weather.forecast && weather.forecast.length > 0 && (
           <div className="bg-white rounded-lg border border-slate-200 shadow-sm p-6">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">7-Day Forecast</h3>
+            <h3 className="text-sm font-semibold text-slate-900 mb-4">7-Day Forecast</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
               {weather.forecast.map((day, i) => (
-                  <div key={i} className="bg-slate-50 rounded-lg p-3 text-center">
+                  <div key={i} className="bg-slate-50 rounded-md p-3 text-center">
                     <p className="text-xs text-slate-500 font-medium">
                       {new Date(day.date).toLocaleDateString("en-IN", { weekday: "short" })}
                     </p>
-                    {renderWeatherIcon(day.condition, "w-6 h-6 mx-auto my-2 text-blue-500")}
+                    {renderWeatherIcon(day.condition, "w-5 h-5 mx-auto my-2 text-slate-400")}
                     <p className="text-xs text-slate-500 truncate">{day.condition}</p>
                     <p className="text-sm font-semibold text-slate-900 mt-1">
-                      {Math.round(day.high)} / {Math.round(day.low)} C
+                      {Math.round(day.high)}° / {Math.round(day.low)}°
                     </p>
                     <div className="flex items-center justify-center gap-1 mt-1">
-                      <Droplets className="w-3 h-3 text-blue-400" />
+                      <Droplets className="w-3 h-3 text-slate-400" />
                       <span className="text-xs text-slate-500">{day.humidity}%</span>
                     </div>
                     {day.rainfall > 0 && (
-                      <p className="text-xs text-blue-600 mt-1">{day.rainfall} mm</p>
+                      <p className="text-xs text-slate-600 mt-1">{day.rainfall} mm</p>
                     )}
                   </div>
                 ))}

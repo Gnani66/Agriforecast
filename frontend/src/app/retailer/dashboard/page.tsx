@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, RefreshCw } from "lucide-react";
+import { AlertTriangle, Boxes, Clock3, Filter, PackageCheck, Plus, RefreshCw, TrendingUp } from "lucide-react";
 import {
   ActionButton,
+  AlertCard,
   DashboardHeader,
   EmptyState,
   KpiCard,
@@ -70,10 +71,11 @@ export default function RetailerDashboard() {
     <div className="space-y-6">
       <DashboardHeader
         eyebrow="Retail operations"
-        title="Store control room"
-        description="Inventory health, sales velocity, spoilage exposure, and replenishment signals in one production workspace."
+        title="Inventory Intelligence"
+        description="Track storage analytics, inventory aging, sales movement, and spoilage risk across store categories."
         actions={
           <>
+            <ActionButton variant="secondary" icon={Filter}>Filters</ActionButton>
             <ActionButton variant="secondary" icon={RefreshCw} onClick={fetchData}>Refresh</ActionButton>
             <ActionButton href="/retailer/inventory" icon={Plus}>Add stock</ActionButton>
           </>
@@ -96,15 +98,35 @@ export default function RetailerDashboard() {
         </>
       )}
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <KpiCard label="Inventory lines" value={data?.totalInventory ?? "--"} detail={`${data?.lowStockItems ?? 0} need attention`} tone={riskShare > 30 ? "red" : riskShare > 0 ? "amber" : "emerald"} progress={riskShare} />
-        <KpiCard label="Today sales" value={data ? formatCurrency(data.todaySales) : "--"} detail="Booked since midnight" />
-        <KpiCard label="Spoilage risk" value={data?.spoilageRisk ?? "--"} detail="High-risk lines" tone={(data?.spoilageRisk ?? 0) > 0 ? "amber" : "emerald"} />
-        <KpiCard label="Revenue projection" value={data ? formatCurrency(data.revenueProjection) : "--"} detail={`${data?.fastMoving ?? 0} fast-moving items`} tone="blue" />
+      <div className="grid gap-4 xl:grid-cols-2">
+        {data?.inventoryAlerts?.slice(0, 2).map((item) => (
+          <AlertCard
+            key={item._id}
+            icon={AlertTriangle}
+            title={`${item.product} needs stock review`}
+            meta={item.status}
+            description={`Current stock is ${item.quantity} ${item.unit}; minimum target is ${item.minStock}.`}
+          />
+        ))}
+        {(data?.fastMoving ?? 0) > 0 && (
+          <AlertCard
+            icon={TrendingUp}
+            title="Fast-moving items detected"
+            meta="Demand signal"
+            description={`${data?.fastMoving ?? 0} items are showing stronger movement in the current forecast.`}
+          />
+        )}
+      </div>
+
+      <div className="grid gap-5 lg:grid-cols-2">
+        <KpiCard icon={Boxes} label="Items Monitored" value={data?.totalInventory ?? "--"} detail={`${data?.lowStockItems ?? 0} need attention`} tone={riskShare > 30 ? "red" : riskShare > 0 ? "amber" : "emerald"} progress={riskShare} />
+        <KpiCard icon={Clock3} label="Today Sales" value={data ? formatCurrency(data.todaySales) : "--"} detail="Booked since midnight" />
+        <KpiCard icon={AlertTriangle} label="Spoilage Risk" value={data?.spoilageRisk ?? "--"} detail="High-risk lines" tone={(data?.spoilageRisk ?? 0) > 0 ? "amber" : "emerald"} />
+        <KpiCard icon={PackageCheck} label="Revenue Projection" value={data ? formatCurrency(data.revenueProjection) : "--"} detail={`${data?.fastMoving ?? 0} fast-moving items`} tone="blue" />
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.35fr_1fr]">
-        <Panel title="Recent Sales" description="Latest transactions by product and volume.">
+        <Panel title="Sales Intelligence" description="Latest transactions by product and volume.">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[560px] text-sm">
               <thead>
@@ -135,7 +157,7 @@ export default function RetailerDashboard() {
           </div>
         </Panel>
 
-        <Panel title="Inventory Alerts" description="Stock lines crossing reorder or quality thresholds.">
+        <Panel title="Risk Queue" description="Stock lines crossing reorder or quality thresholds.">
           <div className="divide-y divide-slate-100 px-5">
             {data?.inventoryAlerts?.length ? (
               data.inventoryAlerts.map((item) => (
@@ -156,7 +178,7 @@ export default function RetailerDashboard() {
         </Panel>
       </div>
 
-      <Panel title="Commercial Snapshot" description="Value at risk and velocity indicators for store operators.">
+      <Panel title="Inventory Snapshot" description="Value at risk and velocity indicators for store operators.">
         <div className="grid gap-4 p-5 md:grid-cols-3">
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
             <p className="text-sm font-medium text-slate-500">Stock value</p>

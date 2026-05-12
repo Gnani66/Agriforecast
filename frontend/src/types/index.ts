@@ -236,6 +236,7 @@ export interface AIInsight {
   title: string;
   description: string;
   action: string;
+  severity?: "low" | "medium" | "high";
 }
 
 export interface Farmer {

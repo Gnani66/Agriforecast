@@ -34,7 +34,7 @@ export default function About() {
       <main>
         <Section className="bg-white pt-32 pb-20">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="mb-4 inline-block rounded-full bg-emerald-50 px-4 py-1.5 text-sm font-semibold text-emerald-700 ring-1 ring-emerald-200">
+            <span className="mb-4 inline-block rounded-full bg-slate-50 px-4 py-1.5 text-sm font-semibold text-slate-700 ring-1 ring-emerald-200">
               About AgriForecast
             </span>
             <h1 className="mb-6 text-4xl font-semibold tracking-tight text-slate-950 md:text-5xl">
@@ -60,7 +60,7 @@ export default function About() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {principles.map((item) => (
               <Card key={item.title} className="h-full">
-                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700">
+                <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-slate-50 text-slate-700">
                   <item.icon className="h-5 w-5" strokeWidth={1.8} />
                 </div>
                 <h3 className="mb-2 text-base font-semibold text-slate-950">{item.title}</h3>

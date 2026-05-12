@@ -41,7 +41,7 @@ export default function WorkflowSection() {
         viewport={{ once: true }}
         className="mx-auto mb-16 max-w-3xl text-center"
       >
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
+        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-700">
           Workflow
         </p>
         <h2 className="mt-4 text-3xl font-semibold text-slate-950 md:text-5xl">
@@ -60,13 +60,10 @@ export default function WorkflowSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.04 }}
-            className="grid border-t border-slate-200 py-6 md:grid-cols-[120px_1fr]"
-          >
-            <p className="text-sm font-semibold text-slate-400">{String(index + 1).padStart(2, "0")}</p>
-            <div>
-              <h3 className="text-xl font-semibold text-slate-950">{step.title}</h3>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{step.description}</p>
-            </div>
+          className="border-t border-slate-200 py-6"
+        >
+            <h3 className="text-xl font-semibold text-slate-950">{step.title}</h3>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{step.description}</p>
           </motion.div>
         ))}
       </div>

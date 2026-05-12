@@ -106,7 +106,7 @@ export default function DistributorAssistant() {
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
-        <div className="bg-blue-600 p-4">
+        <div className="bg-slate-900 p-4">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-white/20 rounded-lg">
               <Bot className="w-6 h-6 text-white" />
@@ -114,7 +114,7 @@ export default function DistributorAssistant() {
             <div>
               <h2 className="text-white font-semibold">Logistics Intelligence Advisor</h2>
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                <span className="w-2 h-2 bg-slate-400 rounded-full animate-pulse" />
                 <span className="text-blue-100 text-sm">Online - Ready to help</span>
               </div>
             </div>
@@ -124,24 +124,23 @@ export default function DistributorAssistant() {
         <div className="h-[500px] overflow-y-auto p-4 space-y-4 bg-slate-50">
           <AnimatePresence>
             {messages.map((message) => (
-              <motion.div key={message.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
+              <div className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div className={`flex gap-3 max-w-[80%] ${message.role === "user" ? "flex-row-reverse" : ""}`}>
                   <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                    message.role === "user" ? "bg-blue-600" : "bg-slate-700"
+                    message.role === "user" ? "bg-slate-900" : "bg-slate-700"
                   }`}>
                     {message.role === "user" ? <User className="w-4 h-4 text-white" /> : <Bot className="w-4 h-4 text-white" />}
                   </div>
-                  <div className={`rounded-lg px-4 py-3 ${message.role === "user" ? "bg-blue-600 text-white" : "bg-white border border-slate-200 text-slate-800"}`}>
+                  <div className={`rounded-lg px-4 py-3 ${message.role === "user" ? "bg-slate-900 text-white" : "bg-white border border-slate-200 text-slate-800"}`}>
                     <div className="whitespace-pre-wrap text-sm leading-relaxed">{message.content}</div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </AnimatePresence>
 
           {isTyping && (
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex gap-3">
+            <div className="flex gap-3">
               <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center">
                 <Bot className="w-4 h-4 text-white" />
               </div>
@@ -151,7 +150,7 @@ export default function DistributorAssistant() {
                   <span className="text-sm">Analyzing...</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           )}
           <div ref={messagesEndRef} />
         </div>
@@ -174,9 +173,9 @@ export default function DistributorAssistant() {
             <input type="text" value={input} onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSend()}
               placeholder="Ask about routes, fleet, warehouses, or shipments..."
-              className="flex-1 px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" />
+              className="flex-1 px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-400 focus:border-transparent text-sm" />
             <button onClick={handleSend} disabled={!input.trim()}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+              className="px-6 py-3 bg-slate-900 text-white rounded-md hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
               <Send className="w-5 h-5" />
             </button>
           </div>

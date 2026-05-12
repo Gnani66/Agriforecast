@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
 import {
   LayoutDashboard,
   Truck,
   MapPin,
   Warehouse,
   BarChart3,
-  Brain,
+  Bot,
   MessageSquare,
   Settings,
   LogOut,
@@ -24,8 +23,8 @@ const menu = [
   { label: "Routes", icon: MapPin, href: "/distributor/routes" },
   { label: "Warehouses", icon: Warehouse, href: "/distributor/warehouses" },
   { label: "Analytics", icon: BarChart3, href: "/distributor/analytics" },
-  { label: "AI Insights", icon: Brain, href: "/distributor/insights" },
-  { label: "AI Assistant", icon: MessageSquare, href: "/distributor/assistant" },
+  { label: "AI Insights", icon: Bot, href: "/distributor/insights" },
+  { label: "Notifications", icon: MessageSquare, href: "/distributor/assistant" },
   { label: "Settings", icon: Settings, href: "/distributor/settings" },
 ];
 
@@ -34,61 +33,64 @@ export default function DistributorSidebar({ isOpen, onClose }: { isOpen: boolea
 
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isOpen ? 1 : 0 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/40 z-40 lg:hidden"
-        onClick={onClose}
-      />
-      <motion.aside
-        initial={{ x: -280 }}
-        animate={{ x: isOpen ? 0 : -280 }}
-        className="fixed left-0 top-0 h-full w-64 bg-white border-r border-slate-200 z-50 lg:static lg:translate-x-0 shadow-lg"
+      {isOpen && <div className="fixed inset-0 z-40 bg-black/40 lg:hidden" onClick={onClose} />}
+
+      <aside
+        className={`
+          fixed left-0 top-0 z-50 flex h-full w-64 flex-col border-r border-slate-200 bg-white
+          transition-transform duration-300 ease-in-out lg:static lg:z-auto lg:translate-x-0
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+        `}
       >
-        <div className="p-6 border-b border-slate-200">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Truck className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="font-bold text-slate-900">Distributor</h2>
-                <p className="text-xs text-slate-500">Logistics Hub</p>
-              </div>
+        <div className="flex h-16 items-center justify-between border-b border-slate-100 px-6">
+          <Link href="/distributor/dashboard" className="flex items-center gap-3" onClick={onClose}>
+            <div className="flex h-8 w-8 items-center justify-center rounded bg-slate-950 text-white shadow-sm">
+              <Truck className="h-4 w-4" />
             </div>
-            <button onClick={onClose} className="lg:hidden text-slate-400 hover:text-slate-600">
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+            <div>
+              <p className="text-sm font-semibold tracking-tight text-slate-900">AgriFlow AI</p>
+            </div>
+          </Link>
+          <button onClick={onClose} className="rounded-md p-1.5 text-slate-400 hover:bg-slate-50 lg:hidden">
+            <X className="h-4 w-4" />
+          </button>
         </div>
 
-        <nav className="p-4 space-y-1">
-          {menu.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={onClose}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  isActive ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-50"
-                }`}
-              >
-                <item.icon className="w-5 h-5" />
-                <span className="font-medium">{item.label}</span>
-              </Link>
-            );
-          })}
+        <nav className="flex-1 overflow-y-auto px-3 py-6">
+          <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-wider text-slate-400">Overview</p>
+          <div className="space-y-0.5">
+            {menu.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={onClose}
+                  className={`flex h-9 items-center gap-3 rounded-md px-3 text-sm font-medium transition ${
+                    isActive
+                      ? "bg-slate-100 text-slate-900"
+                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  }`}
+                >
+                  <item.icon className={`h-4 w-4 ${isActive ? "text-slate-900" : "text-slate-400"}`} />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </div>
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-200">
-          <Link href="/" className="flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors">
-            <LogOut className="w-5 h-5" />
-            <span className="font-medium">Logout</span>
+        <div className="border-t border-slate-100 p-4">
+          <div className="rounded-md border border-slate-200 bg-slate-50 p-3">
+            <p className="text-xs font-semibold text-slate-900">Logistics Hub</p>
+            <p className="mt-0.5 text-xs text-slate-500">Fleet Operations</p>
+          </div>
+          <Link href="/" className="mt-2 flex h-9 items-center gap-3 rounded-md px-3 text-sm font-medium text-slate-600 transition hover:bg-red-50 hover:text-red-600">
+            <LogOut className="h-4 w-4 text-slate-400 group-hover:text-red-600" />
+            Logout
           </Link>
         </div>
-      </motion.aside>
+      </aside>
     </>
   );
 }

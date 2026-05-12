@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import {
   Package,
   Truck,
@@ -19,9 +18,9 @@ const statCards = [
 ];
 
 const colorMap: Record<string, string> = {
-  blue: "bg-blue-50 text-blue-600",
+  blue: "bg-slate-50 text-slate-500",
   red: "bg-red-50 text-red-600",
-  emerald: "bg-emerald-50 text-emerald-600",
+  emerald: "bg-slate-50 text-slate-500",
 };
 
 export default function ShipmentsPage() {
@@ -45,8 +44,7 @@ export default function ShipmentsPage() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((stat, i) => (
-          <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-            className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
+          <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
             <div className="flex items-center gap-3">
               <div className={`p-2 rounded-lg ${colorMap[stat.color]}`}>
                 <stat.icon className="w-5 h-5" />
@@ -56,7 +54,7 @@ export default function ShipmentsPage() {
                 <p className="text-sm text-slate-500">{stat.label}</p>
               </div>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 
@@ -66,7 +64,7 @@ export default function ShipmentsPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
             <input type="text" value={search} onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by ID, origin, or destination..."
-              className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+              className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-slate-400 focus:border-transparent" />
           </div>
           <div className="flex items-center gap-3">
             <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}

@@ -2,7 +2,6 @@
 
 import { useAuth } from "@/context/AuthContext";
 import { Store, User, Mail, MapPin, Shield, HelpCircle } from "lucide-react";
-import { motion } from "framer-motion";
 
 export default function RetailerSettings() {
   const { user } = useAuth();
@@ -16,10 +15,7 @@ export default function RetailerSettings() {
 
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-lg p-6 shadow-sm border border-slate-200"
+          <div className="bg-white rounded-lg p-6 shadow-sm border border-slate-200"
           >
             <h2 className="font-semibold text-slate-800 mb-4">Store Information</h2>
             <div className="grid md:grid-cols-2 gap-4">
@@ -52,15 +48,12 @@ export default function RetailerSettings() {
                 </div>
               </div>
             </div>
-            <button className="mt-4 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700">
+            <button className="mt-4 px-4 py-2 bg-slate-900 text-white rounded-md hover:bg-slate-800">
               Update Store Info
             </button>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+          <div
             className="bg-white rounded-lg p-6 shadow-sm border border-slate-200"
           >
             <h2 className="font-semibold text-slate-800 mb-4">Notifications</h2>
@@ -76,7 +69,7 @@ export default function RetailerSettings() {
                   <span className="text-slate-700">{item.label}</span>
                   <button
                     className={`w-12 h-6 rounded-full transition-colors ${
-                      item.enabled ? "bg-emerald-600" : "bg-slate-300"
+                      item.enabled ? "bg-slate-900" : "bg-slate-300"
                     }`}
                   >
                     <div
@@ -88,14 +81,11 @@ export default function RetailerSettings() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
 
         <div className="space-y-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05 }}
+          <div
             className="bg-white rounded-lg p-6 shadow-sm border border-slate-200"
           >
             <div className="flex items-center gap-3 mb-4">
@@ -115,12 +105,9 @@ export default function RetailerSettings() {
                 Active Sessions
               </button>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
+          <div
             className="bg-white rounded-lg p-6 shadow-sm border border-slate-200"
           >
             <div className="flex items-center gap-3 mb-4">
@@ -140,7 +127,7 @@ export default function RetailerSettings() {
                 Sign Out
               </button>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>

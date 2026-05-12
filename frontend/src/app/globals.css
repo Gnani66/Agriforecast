@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f7f9;
-  --foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
+  --background: #fafafa;
+  --foreground: #09090b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
   --surface: #ffffff;
-  --border: #e2e8f0;
+  --border: #e4e4e7;
   --input-bg: #ffffff;
-  --primary: #047857;
-  --primary-dark: #065f46;
-  --accent: #dbeafe;
-  --accent-foreground: #1d4ed8;
-  --warning: #d97706;
-  --danger: #dc2626;
+  --primary: #18181b;
+  --primary-dark: #000000;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+  --warning: #f59e0b;
+  --danger: #ef4444;
 }
 
 * {
@@ -33,6 +33,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.app-workspace {
+  background: var(--background);
+}
+
 h1,
 h2,
 h3 {
@@ -44,11 +48,11 @@ a {
 }
 
 ::selection {
-  background: rgba(4, 120, 87, 0.16);
+  background: rgba(24, 24, 27, 0.1);
 }
 
 :focus-visible {
-  outline: 3px solid rgba(4, 120, 87, 0.22);
+  outline: 2px solid rgba(24, 24, 27, 0.2);
   outline-offset: 2px;
 }
 
@@ -58,14 +62,14 @@ a {
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
+  animation: fadeIn 0.2s ease-out;
 }
 
 .animate-slide-up {
-  animation: slideUp 0.3s ease-out;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }

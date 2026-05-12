@@ -6,6 +6,7 @@ const { getCurrentWeather, analyzeFarmingRisks, getForecast: getWeatherForecast 
 const { generateDemandForecast, generateRevenueForecast, calculateDemandIndex } = require("../services/forecastService");
 const { getMarketPrices, getPriceTrend } = require("../services/marketService");
 const { predictHarvest } = require("../services/harvestPredictionService");
+const { getCache } = require("../services/redisClient");
 
 function computeWeatherRiskLevel(risks) {
   if (!risks || risks.length === 0) return "low";
@@ -223,6 +224,18 @@ const getMarket = async (req, res) => {
   }
 };
 
+const getLiveMarket = async (req, res) => {
+  try {
+    const livePrices = await getCache("live_market_prices");
+    if (!livePrices) {
+      return res.json({ success: true, data: [] });
+    }
+    res.json({ success: true, data: livePrices });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 const getHarvest = async (req, res) => {
   try {
     const activeCrops = await CropEntry.find({
@@ -282,7 +295,7 @@ const getWeather = async (req, res) => {
     res.json({
       success: true,
       data: {
-        current,
+        ...current,
         forecast,
         risks
       }
@@ -370,6 +383,7 @@ module.exports = {
   deleteCrop,
   getForecast,
   getMarket,
+  getLiveMarket,
   getHarvest,
   getRevenue,
   getWeather,

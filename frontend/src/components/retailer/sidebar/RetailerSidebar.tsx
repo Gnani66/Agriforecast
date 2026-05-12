@@ -2,31 +2,30 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 import {
-  LayoutDashboard,
-  Package,
   AlertTriangle,
-  ShoppingCart,
-  TrendingUp,
-  Brain,
-  MessageSquare,
-  Settings,
-  LogOut,
-  X,
   BarChart3,
-  Truck,
+  Bell,
+  Bot,
+  Grid2X2,
+  Leaf,
+  LineChart,
+  LogOut,
+  Package,
+  Settings,
+  ShoppingCart,
+  X,
 } from "lucide-react";
 
 const retailerMenu = [
-  { label: "Dashboard", icon: LayoutDashboard, href: "/retailer/dashboard" },
+  { label: "Dashboard", icon: Grid2X2, href: "/retailer/dashboard" },
   { label: "Inventory", icon: Package, href: "/retailer/inventory" },
   { label: "Waste Analytics", icon: AlertTriangle, href: "/retailer/waste" },
   { label: "Procurement", icon: ShoppingCart, href: "/retailer/procurement" },
-  { label: "Forecasting", icon: TrendingUp, href: "/retailer/forecasting" },
+  { label: "Forecasting", icon: LineChart, href: "/retailer/forecasting" },
   { label: "Sales Trends", icon: BarChart3, href: "/retailer/sales" },
-  { label: "AI Insights", icon: Brain, href: "/retailer/insights" },
-  { label: "AI Assistant", icon: MessageSquare, href: "/retailer/assistant" },
+  { label: "AI Insights", icon: Bot, href: "/retailer/insights" },
+  { label: "Notifications", icon: Bell, href: "/retailer/assistant" },
   { label: "Settings", icon: Settings, href: "/retailer/settings" },
 ];
 
@@ -41,71 +40,64 @@ export default function RetailerSidebar({
 
   return (
     <>
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-            onClick={onClose}
-          />
-        )}
-      </AnimatePresence>
+      {isOpen && <div className="fixed inset-0 z-40 bg-black/40 lg:hidden" onClick={onClose} />}
 
-      <motion.aside
-        initial={{ x: -280 }}
-        animate={{ x: isOpen ? 0 : -280 }}
-        className="fixed left-0 top-0 h-full w-64 bg-white border-r border-slate-200 z-50 lg:static lg:translate-x-0 shadow-sm"
+      <aside
+        className={`
+          fixed left-0 top-0 z-50 flex h-full w-64 flex-col border-r border-slate-200 bg-white
+          transition-transform duration-300 ease-in-out lg:static lg:z-auto lg:translate-x-0
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+        `}
       >
-        <div className="p-6 border-b border-slate-200">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
-                <Truck className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="font-bold text-slate-800">Retailer Portal</h2>
-                <p className="text-xs text-slate-500">Smart Inventory</p>
-              </div>
+        <div className="flex h-16 items-center justify-between border-b border-slate-100 px-6">
+          <Link href="/retailer/dashboard" className="flex items-center gap-3" onClick={onClose}>
+            <div className="flex h-8 w-8 items-center justify-center rounded bg-slate-950 text-white shadow-sm">
+              <Leaf className="h-4 w-4" />
             </div>
-            <button onClick={onClose} className="lg:hidden text-slate-400 hover:text-slate-600">
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+            <div>
+              <p className="text-sm font-semibold tracking-tight text-slate-900">AgriFlow AI</p>
+            </div>
+          </Link>
+          <button onClick={onClose} className="rounded-md p-1.5 text-slate-400 hover:bg-slate-50 lg:hidden">
+            <X className="h-4 w-4" />
+          </button>
         </div>
 
-        <nav className="p-4 space-y-1">
-          {retailerMenu.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={onClose}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                  isActive
-                    ? "bg-emerald-50 text-emerald-700"
-                    : "text-slate-500 hover:bg-slate-50"
-                }`}
-              >
-                <item.icon className="w-5 h-5" />
-                <span className="font-medium">{item.label}</span>
-              </Link>
-            );
-          })}
+        <nav className="flex-1 overflow-y-auto px-3 py-6">
+          <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-wider text-slate-400">Overview</p>
+          <div className="space-y-0.5">
+            {retailerMenu.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={onClose}
+                  className={`flex h-9 items-center gap-3 rounded-md px-3 text-sm font-medium transition ${
+                    isActive
+                      ? "bg-slate-100 text-slate-900"
+                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  }`}
+                >
+                  <item.icon className={`h-4 w-4 ${isActive ? "text-slate-900" : "text-slate-400"}`} />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </div>
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-200">
-          <Link
-            href="/"
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
-          >
-            <LogOut className="w-5 h-5" />
-            <span className="font-medium">Logout</span>
+        <div className="border-t border-slate-100 p-4">
+          <div className="rounded-md border border-slate-200 bg-slate-50 p-3">
+            <p className="text-xs font-semibold text-slate-900">Retail workspace</p>
+            <p className="mt-0.5 text-xs text-slate-500">Store operations</p>
+          </div>
+          <Link href="/" className="mt-2 flex h-9 items-center gap-3 rounded-md px-3 text-sm font-medium text-slate-600 transition hover:bg-red-50 hover:text-red-600">
+            <LogOut className="h-4 w-4 text-slate-400 group-hover:text-red-600" />
+            Logout
           </Link>
         </div>
-      </motion.aside>
+      </aside>
     </>
   );
 }

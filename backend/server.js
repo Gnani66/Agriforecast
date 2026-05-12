@@ -9,7 +9,17 @@ app.use(cors());
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Connected"))
+.then(async () => {
+  console.log("MongoDB Connected");
+  
+  // Initialize Redis
+  const { connectRedis } = require("./services/redisClient");
+  await connectRedis();
+
+  // Initialize Cron Jobs
+  const { initCronJobs } = require("./cron/marketCron");
+  initCronJobs();
+})
 .catch((err) => console.log(err));
 
 const farmerAuthRoutes = require("./routes/farmerAuthRoutes");

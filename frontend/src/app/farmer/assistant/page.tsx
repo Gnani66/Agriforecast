@@ -75,7 +75,7 @@ export default function AssistantPage() {
                 <div className={`max-w-[80%]`}>
                   <div className={`flex gap-3 ${msg.role === "user" ? "flex-row-reverse" : ""}`}>
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      msg.role === "assistant" ? "bg-emerald-600" : "bg-slate-200"
+                      msg.role === "assistant" ? "bg-slate-900" : "bg-slate-200"
                     }`}>
                       {msg.role === "assistant" ? (
                         <Bot className="w-4 h-4 text-white" />
@@ -85,7 +85,7 @@ export default function AssistantPage() {
                     </div>
                     <div className={`rounded-lg p-4 ${
                       msg.role === "user"
-                        ? "bg-emerald-600 text-white"
+                        ? "bg-slate-900 text-white"
                         : "bg-slate-100 text-slate-900"
                     }`}>
                       <p className="text-sm whitespace-pre-line leading-relaxed">{msg.content}</p>
@@ -101,7 +101,7 @@ export default function AssistantPage() {
             {isLoading && (
               <div className="flex justify-start">
                 <div className="flex gap-3">
-                  <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center">
                     <Bot className="w-4 h-4 text-white" />
                   </div>
                   <div className="bg-slate-100 rounded-lg p-4">
@@ -125,12 +125,12 @@ export default function AssistantPage() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend()}
                 placeholder="Ask a question about your farm..."
-                className="flex-1 px-4 py-3 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                className="flex-1 px-4 py-3 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent"
               />
               <button
                 onClick={handleSend}
                 disabled={!input.trim() || isLoading}
-                className="px-4 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-4 py-3 bg-slate-900 text-white rounded-md hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <Send className="w-5 h-5" />
               </button>

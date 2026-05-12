@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import {
   BarChart3,
   Package,
@@ -24,11 +23,11 @@ import {
 } from "recharts";
 
 const colorMap: Record<string, string> = {
-  blue: "bg-blue-50 text-blue-600",
-  emerald: "bg-emerald-50 text-emerald-600",
-  purple: "bg-purple-50 text-purple-600",
-  orange: "bg-orange-50 text-orange-600",
-  cyan: "bg-cyan-50 text-cyan-600",
+  blue: "bg-slate-50 text-slate-500",
+  emerald: "bg-slate-50 text-slate-500",
+  purple: "bg-slate-50 text-slate-500",
+  orange: "bg-slate-50 text-slate-500",
+  cyan: "bg-slate-50 text-slate-500",
   red: "bg-red-50 text-red-600",
 };
 
@@ -51,8 +50,7 @@ export default function AnalyticsPage() {
 
       <div className="grid grid-cols-2 lg:grid-cols-6 gap-6">
         {statCards.map((metric, i) => (
-          <motion.div key={metric.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
-            className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
+          <div className="bg-white rounded-lg p-6 border border-slate-200 shadow-sm">
             <div className="flex items-start justify-between mb-2">
               <p className="text-sm text-slate-500">{metric.label}</p>
               <div className={`p-1.5 rounded-lg ${colorMap[metric.color]}`}>
@@ -60,7 +58,7 @@ export default function AnalyticsPage() {
               </div>
             </div>
             <p className="text-xl font-bold text-slate-900">-</p>
-          </motion.div>
+          </div>
         ))}
       </div>
 
@@ -71,15 +69,15 @@ export default function AnalyticsPage() {
             <AreaChart data={[]}>
               <defs>
                 <linearGradient id="deliveriesGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#71717a" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#71717a" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
               <XAxis dataKey="day" tick={{ fontSize: 12 }} stroke="#94a3b8" />
               <YAxis tick={{ fontSize: 12 }} stroke="#94a3b8" />
               <Tooltip />
-              <Area type="monotone" dataKey="deliveries" stroke="#3b82f6" fill="url(#deliveriesGradient)" strokeWidth={2} name="Deliveries" />
+              <Area type="monotone" dataKey="deliveries" stroke="#71717a" fill="url(#deliveriesGradient)" strokeWidth={2} name="Deliveries" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -92,7 +90,7 @@ export default function AnalyticsPage() {
               <XAxis dataKey="day" tick={{ fontSize: 12 }} stroke="#94a3b8" />
               <YAxis tick={{ fontSize: 12 }} stroke="#94a3b8" />
               <Tooltip />
-              <Line type="monotone" dataKey="efficiency" stroke="#22c55e" strokeWidth={2} name="Efficiency %" />
+              <Line type="monotone" dataKey="efficiency" stroke="#18181b" strokeWidth={2} name="Efficiency %" />
               <Line type="monotone" dataKey="fuel" stroke="#f59e0b" strokeWidth={2} name="Fuel (L)" />
             </LineChart>
           </ResponsiveContainer>
@@ -107,16 +105,16 @@ export default function AnalyticsPage() {
             <XAxis dataKey="day" tick={{ fontSize: 12 }} stroke="#94a3b8" />
             <YAxis tick={{ fontSize: 12 }} stroke="#94a3b8" />
             <Tooltip />
-            <Bar dataKey="deliveries" fill="#3b82f6" radius={[4, 4, 0, 0]} name="Deliveries" />
-            <Bar dataKey="efficiency" fill="#22c55e" radius={[4, 4, 0, 0]} name="Efficiency %" />
+            <Bar dataKey="deliveries" fill="#71717a" radius={[4, 4, 0, 0]} name="Deliveries" />
+            <Bar dataKey="efficiency" fill="#18181b" radius={[4, 4, 0, 0]} name="Efficiency %" />
           </BarChart>
         </ResponsiveContainer>
       </div>
 
-      <div className="bg-blue-50 rounded-lg p-6 border border-blue-200">
+      <div className="bg-slate-50 rounded-lg p-6 border border-slate-200">
         <div className="flex items-start gap-4">
-          <div className="p-3 bg-blue-100 rounded-lg">
-            <BarChart3 className="w-6 h-6 text-blue-600" />
+          <div className="p-3 bg-slate-100 rounded-lg">
+            <BarChart3 className="w-6 h-6 text-slate-500" />
           </div>
           <div>
             <h3 className="font-semibold text-slate-900 mb-2">AI Analytics Insights</h3>

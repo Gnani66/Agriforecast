@@ -19,7 +19,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45 }}
-            className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700"
+            className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-700"
           >
             Agricultural operations platform
           </motion.p>

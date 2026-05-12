@@ -1,28 +1,44 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { ShoppingCart, TrendingUp, Clock, DollarSign, Bell, RefreshCw, AlertTriangle, BarChart3 } from "lucide-react";
 import { retailerService } from "@/services/retailerService";
 
 type Tab = "reorder" | "forecast" | "history";
 
+interface ProcurementItem {
+  product: string;
+  currentStock?: number;
+  minStock?: number;
+  suggestedQuantity?: number;
+  avgDailySales?: number;
+  urgency?: "high" | "medium" | "low" | string;
+  reason?: string;
+}
+
 export default function ProcurementPage() {
   const [activeTab, setActiveTab] = useState<Tab>("reorder");
-  const [recs, setRecs] = useState<any[]>([]);
+  const [recs, setRecs] = useState<ProcurementItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     setLoading(true);
     const res = await retailerService.getProcurement();
-    if (res.success && res.data) setRecs(res.data as any[]);
+    if (res.success && res.data) setRecs(res.data as ProcurementItem[]);
     setLoading(false);
   };
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => {
+    async function loadProcurement() {
+      const res = await retailerService.getProcurement();
+      if (res.success && res.data) setRecs(res.data as ProcurementItem[]);
+      setLoading(false);
+    }
+    loadProcurement();
+  }, []);
 
   const highPriority = recs.filter(r => r.urgency === "high");
-  const totalCost = recs.reduce((s, r) => s + (r.suggestedQuantity * (r.avgDailySales * 30 || 0) || 0), 0);
+  const totalCost = recs.reduce((s, r) => s + ((r.suggestedQuantity || 0) * ((r.avgDailySales || 0) * 30)), 0);
 
   return (
     <div className="space-y-6">
@@ -33,20 +49,20 @@ export default function ProcurementPage() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { label: "Reorder Alerts", value: loading ? "--" : recs.length, icon: Bell, color: "text-orange-600", bg: "bg-orange-50" },
+          { label: "Reorder Alerts", value: loading ? "--" : recs.length, icon: Bell, color: "text-slate-500", bg: "bg-slate-50" },
           { label: "High Priority", value: loading ? "--" : highPriority.length, icon: AlertTriangle, color: "text-red-600", bg: "bg-red-50" },
-          { label: "Est. Procurement", value: loading ? "--" : `₹${totalCost.toLocaleString()}`, icon: DollarSign, color: "text-green-600", bg: "bg-green-50" },
-          { label: "Items Analyzed", value: loading ? "--" : recs.length, icon: Clock, color: "text-blue-600", bg: "bg-blue-50" },
+          { label: "Est. Procurement", value: loading ? "--" : `₹${totalCost.toLocaleString()}`, icon: DollarSign, color: "text-slate-500", bg: "bg-slate-50" },
+          { label: "Items Analyzed", value: loading ? "--" : recs.length, icon: Clock, color: "text-slate-500", bg: "bg-slate-50" },
         ].map((metric, i) => (
-          <motion.div key={metric.label} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} className="bg-white rounded-lg p-5 shadow-sm border border-slate-200">
+          <div className="bg-white rounded-lg p-5 shadow-sm border border-slate-200">
             <div className="flex items-center gap-3"><div className={`p-2 rounded-lg ${metric.bg}`}><metric.icon className={`w-5 h-5 ${metric.color}`} /></div><div><p className="text-2xl font-bold text-slate-800">{metric.value}</p><p className="text-sm text-slate-500">{metric.label}</p></div></div>
-          </motion.div>
+          </div>
         ))}
       </div>
 
       <div className="flex gap-4 border-b border-slate-200">
         {([{ id: "reorder", label: "Reorder Alerts", icon: Bell }, { id: "forecast", label: "Demand Forecast", icon: TrendingUp }, { id: "history", label: "Procurement History", icon: Clock }] as const).map(tab => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id as Tab)} className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-colors ${activeTab === tab.id ? "border-emerald-600 text-emerald-600" : "border-transparent text-slate-500 hover:text-slate-700"}`}><tab.icon className="w-4 h-4" />{tab.label}</button>
+          <button key={tab.id} onClick={() => setActiveTab(tab.id as Tab)} className={`flex items-center gap-2 px-4 py-3 border-b-2 transition-colors ${activeTab === tab.id ? "border-emerald-600 text-slate-500" : "border-transparent text-slate-500 hover:text-slate-700"}`}><tab.icon className="w-4 h-4" />{tab.label}</button>
         ))}
       </div>
 
@@ -70,7 +86,7 @@ export default function ProcurementPage() {
                 <div className="space-y-3">{recs.slice(0, 5).map((r, i) => (
                   <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
                     <div><p className="font-medium text-slate-800">{r.product}</p><p className="text-xs text-slate-500">Suggested: {r.suggestedQuantity} units</p></div>
-                    <span className="text-sm font-medium text-emerald-600">{r.urgency === "high" ? "Order now" : r.urgency === "medium" ? "Order soon" : "Hold"}</span>
+                    <span className="text-sm font-medium text-slate-500">{r.urgency === "high" ? "Order now" : r.urgency === "medium" ? "Order soon" : "Hold"}</span>
                   </div>
                 ))}</div>
               </div>
@@ -88,7 +104,7 @@ export default function ProcurementPage() {
               <tbody>{recs.length === 0 ? (
                 <tr><td colSpan={5} className="py-12 text-center text-slate-400"><BarChart3 className="w-8 h-8 mx-auto mb-2" /><p>Forecast data will appear once demand patterns are established</p></td></tr>
               ) : recs.map((r, i) => (
-                <tr key={i} className="border-b border-slate-100"><td className="py-3 px-4 font-medium">{r.product}</td><td className="py-3 px-4">{r.currentStock}</td><td className="py-3 px-4">{r.avgDailySales?.toFixed(1)}</td><td className="py-3 px-4">{r.suggestedQuantity}</td><td className="py-3 px-4"><span className={`text-xs font-medium ${r.urgency === "high" ? "text-red-600" : r.urgency === "medium" ? "text-amber-600" : "text-green-600"}`}>{r.reason}</span></td></tr>
+                <tr key={i} className="border-b border-slate-100"><td className="py-3 px-4 font-medium">{r.product}</td><td className="py-3 px-4">{r.currentStock}</td><td className="py-3 px-4">{r.avgDailySales?.toFixed(1)}</td><td className="py-3 px-4">{r.suggestedQuantity}</td><td className="py-3 px-4"><span className={`text-xs font-medium ${r.urgency === "high" ? "text-red-600" : r.urgency === "medium" ? "text-amber-600" : "text-slate-500"}`}>{r.reason}</span></td></tr>
               ))}</tbody>
             </table>
           </div>
@@ -104,7 +120,7 @@ export default function ProcurementPage() {
               <tbody>{recs.length === 0 ? (
                 <tr><td colSpan={5} className="py-12 text-center text-slate-400"><Clock className="w-8 h-8 mx-auto mb-2" /><p>No recommendations yet</p></td></tr>
               ) : recs.map((r, i) => (
-                <tr key={i} className="border-b border-slate-100"><td className="py-3 px-4 font-medium">{r.product}</td><td className="py-3 px-4">{r.currentStock}</td><td className="py-3 px-4">{r.suggestedQuantity}</td><td className="py-3 px-4"><span className={`px-2 py-1 rounded-full text-xs font-medium ${r.urgency === "high" ? "bg-red-100 text-red-700" : r.urgency === "medium" ? "bg-amber-100 text-amber-700" : "bg-green-100 text-green-700"}`}>{r.urgency}</span></td><td className="py-3 px-4 text-sm text-slate-500">{r.reason}</td></tr>
+                <tr key={i} className="border-b border-slate-100"><td className="py-3 px-4 font-medium">{r.product}</td><td className="py-3 px-4">{r.currentStock}</td><td className="py-3 px-4">{r.suggestedQuantity}</td><td className="py-3 px-4"><span className={`px-2 py-1 rounded-full text-xs font-medium ${r.urgency === "high" ? "bg-red-100 text-red-700" : r.urgency === "medium" ? "bg-amber-100 text-amber-700" : "bg-slate-100 text-slate-700"}`}>{r.urgency}</span></td><td className="py-3 px-4 text-sm text-slate-500">{r.reason}</td></tr>
               ))}</tbody>
             </table>
           </div>
